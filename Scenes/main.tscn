@@ -528,7 +528,7 @@ animations = [{
 
 [node name="Cat" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(427, 276)
+position = Vector2(497, 309)
 scale = Vector2(4.84, 4.84)
 sprite_frames = SubResource("SpriteFrames_ueoa1")
 animation = &"rushL"
