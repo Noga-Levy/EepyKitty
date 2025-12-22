@@ -1,5 +1,6 @@
-[gd_scene load_steps=77 format=3 uid="uid://dvmvwheeocy0d"]
+[gd_scene load_steps=78 format=3 uid="uid://dvmvwheeocy0d"]
 
+[ext_resource type="Script" uid="uid://cch46guopnxdi" path="res://Scripts/window-movement.gd" id="1_21xkr"]
 [ext_resource type="Texture2D" uid="uid://c8tgcdgjp18ny" path="res://Assets/WhiteCatIdle.png" id="1_bo1nx"]
 [ext_resource type="Texture2D" uid="uid://j5x5j7j3gogj" path="res://Assets/Rush/WhiteCatRushR.png" id="1_jjgbg"]
 [ext_resource type="Texture2D" uid="uid://c1m8as5exgv60" path="res://Assets/Run/WhiteCatRunL.png" id="2_jjvhh"]
@@ -525,6 +526,7 @@ animations = [{
 }]
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_21xkr")
 
 [node name="Cat" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
