@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://j5x5j7j3gogj"
-path="res://.godot/imported/WhiteCatRushR.png-707e50cf39ad321c55a05cedafbee64c.ctex"
+uid="uid://cuvv37yvf8pvq"
+path="res://.godot/imported/DamageL.png-10d525eac4f06caeae865fbd9fb73fa1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Rush/WhiteCatRushR.png"
-dest_files=["res://.godot/imported/WhiteCatRushR.png-707e50cf39ad321c55a05cedafbee64c.ctex"]
+source_file="res://Assets/Damage/DamageL.png"
+dest_files=["res://.godot/imported/DamageL.png-10d525eac4f06caeae865fbd9fb73fa1.ctex"]
 
 [params]
 
