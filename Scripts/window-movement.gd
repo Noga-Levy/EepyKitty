@@ -36,6 +36,8 @@ func _ready() -> void:
 	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_ALWAYS_ON_TOP, true)
 	# And then detect window callbacks, such as the mouse entering the window, thus touching the cat
 	DisplayServer.window_set_window_event_callback(_window_callback)
+	# Finally, we set our first animation
+	emit_signal("action", 1, x)
 
 # Function for window callbacks
 func _window_callback(event: int):
