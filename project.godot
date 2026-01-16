@@ -12,10 +12,12 @@ config_version=5
 
 config/name="EepyKitty"
 run/main_scene="uid://dvmvwheeocy0d"
+config/auto_accept_quit=false
 config/features=PackedStringArray("4.5", "GL Compatibility")
 boot_splash/bg_color=Color(0.14117648, 0.14117648, 0.14117648, 0)
 boot_splash/show_image=false
-config/icon="res://icon.svg"
+boot_splash/image="uid://dpqnqct1cdf3o"
+config/icon="uid://dpqnqct1cdf3o"
 
 [display]
 

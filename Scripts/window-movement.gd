@@ -29,7 +29,9 @@ var stress_decr: float = 0.01 # The smallest factor for which base stress can de
 var range_idle = 1  # More stress = higher number
 
 # This will act as the timer until the cat randomly switches direction
-var switch_dir_cd = 5
+var switch_dir_cd = 3
+
+var speed
 
 func _ready() -> void:
 	# We first ensure that the cat does not get covered by other windows
@@ -39,10 +41,16 @@ func _ready() -> void:
 	# Finally, we set our first animation
 	emit_signal("action", 1, x)
 
+
 # Function for window callbacks
 func _window_callback(event: int):
-	if event == DisplayServer.WINDOW_EVENT_MOUSE_ENTER:  # (this does allow the user to "break
-		#" the cat--there are no errors, but it can push the cat to get past the speed for which 
+	
+	# We first check to see if the user wishes to close the program
+	if event == DisplayServer.WINDOW_EVENT_CLOSE_REQUEST:
+		get_tree().quit()
+	
+	if event == DisplayServer.WINDOW_EVENT_MOUSE_ENTER:  # (this does allow the user to "break"
+		# the cat--there are no errors, but it can push the cat to get past the speed for which 
 		# the increase is more than the decrease)
 		
 		# We set these to false so that the user cannot force the cat to go off-screen
@@ -52,19 +60,21 @@ func _window_callback(event: int):
 		responded_sy = false
 		
 		# Now, we begin the reaction
-		emit_signal("action", 0, x)
-		window_mvment = false
-		x *= -1
-		y *= -1
-		window_mvment = false
-		await get_tree().create_timer(1).timeout
-		window_mvment = true
-		switch_dir_cd = 3
-		emit_signal("action", 1, x)
-		
-		# And add the stress
-		stress += stress_incr * 2
-
+		if x != 0:
+			emit_signal("action", 0, x)
+			window_mvment = false
+			x *= -1
+			y *= -1
+			window_mvment = false
+			await get_tree().create_timer(1).timeout
+			window_mvment = true
+			switch_dir_cd = 3
+			# And add the stress
+			stress += stress_incr * 2
+			emit_signal("action", 1 + stress, x)
+			
+		else:
+			pass
 
 # Function to figure out if the cat has reached the end, and what to do if it has
 func _is_touching_edge():
@@ -76,12 +86,11 @@ func _is_touching_edge():
 			emit_signal("action", 0, 1)
 			window_mvment = false
 			responded_bx = true
-			window_mvment = false
 			await get_tree().create_timer(1).timeout
 			window_mvment = true
 			switch_dir_cd = 3
-			emit_signal("action", 1, -1)
 			stress += stress_incr
+			emit_signal("action", speed, -1)
 	else:
 		responded_bx = false
 	
@@ -95,8 +104,8 @@ func _is_touching_edge():
 			await get_tree().create_timer(1).timeout
 			window_mvment = true
 			switch_dir_cd = 3
-			emit_signal("action", 1, 1)
 			stress += stress_incr
+			emit_signal("action", speed, 1)
 	else:
 		responded_sx = false
 	
@@ -107,12 +116,11 @@ func _is_touching_edge():
 			emit_signal("action", 0, x)
 			window_mvment = false
 			responded_by = true
-			window_mvment = false
 			await get_tree().create_timer(1).timeout
 			window_mvment = true
 			switch_dir_cd = 3
-			emit_signal("action", 1, x)
 			stress += stress_incr
+			emit_signal("action", speed, x)
 	else:
 		responded_by = false
 	
@@ -123,23 +131,23 @@ func _is_touching_edge():
 			emit_signal("action", 0, x)
 			window_mvment = false
 			responded_sy = true
-			window_mvment = false
 			await get_tree().create_timer(1).timeout
 			window_mvment = true
 			switch_dir_cd = 3
-			emit_signal("action", 1, x)
 			stress += stress_incr
+			emit_signal("action", speed, x)
 	else:
 		responded_sy = false
 
 func _process(delta: float) -> void:
 	_is_touching_edge()
+	speed = 1 + stress
 	
 	#  If actions can/should be taken...
 	if window_mvment:
 		# Update window position
-		get_window().position.x += x * 2 * (1 + stress)
-		get_window().position.y += y * 2 * (1 + stress)
+		get_window().position.x += x * 2 * speed # Later, we can take this coords and plot them
+		get_window().position.y += y * 2 * speed
 		
 		# Countdown until the cat randomly changes direction
 		if switch_dir_cd > 0:
@@ -162,4 +170,3 @@ func _process(delta: float) -> void:
 		if stress > 0:
 			stress -= stress_decr
 			range_idle = 1 + roundi(10 * stress)
-			print(range_idle)
