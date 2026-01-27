@@ -24,6 +24,12 @@ var stress = 0
 var stress_incr: float = 0.9  # The smallest factor for which base stress can increase to
 var stress_decr: float = 0.01 # The smallest factor for which base stress can decrease
 
+
+const ENERGY_MIN: float = 0
+const ENERGY_MAX: float = 2
+var energy: float = 1
+var energy_dlt = 0
+
 # A random int will be selected from 0 to range_idle to deteremine if the cat will go idle. The 
 # larger range_idle is, the less likely
 var range_idle = 1  # More stress = higher number
@@ -61,6 +67,7 @@ func _window_callback(event: int):
 		
 		# Now, we begin the reaction
 		if x != 0:
+			print("x = " + str(x))
 			emit_signal("action", 0, x)
 			window_mvment = false
 			x *= -1
@@ -141,7 +148,10 @@ func _is_touching_edge():
 
 func _process(delta: float) -> void:
 	_is_touching_edge()
+	energy += energy_dlt
+	energy = clampf(energy, ENERGY_MIN, ENERGY_MAX)
 	speed = 1 + stress
+	print(str(energy) + ", " + str(stress) + ", " + str(range_idle))
 	
 	#  If actions can/should be taken...
 	if window_mvment:
@@ -159,14 +169,17 @@ func _process(delta: float) -> void:
 			emit_signal("action", 1, x)
 			switch_dir_cd = 3
 			stress_decr = 0.01
+			energy_dlt = -0.01
 		else:
 			x = 0
 			y = 0
 			emit_signal("action", 0, 0)
 			switch_dir_cd = 3
 			stress_decr = 0.02
-		
+			energy_dlt = 0.02
+			
 		# Decreases stress if it is above 0, and increases range_idle (for the same prerequisites)
 		if stress > 0:
 			stress -= stress_decr
-			range_idle = 1 + roundi(10 * stress)
+			var infinity = int(INF)
+			range_idle = 1 + clampi(roundi(10 * stress - energy), 0, infinity)
