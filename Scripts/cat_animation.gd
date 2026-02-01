@@ -1,3 +1,10 @@
+"""
+Written in December 2025 to February of 2026 by Noga Levy.
+
+cat_animation.gd, as the name suggests, animates the cat depending on the information given in the
+"action" signal, sent by window_movement.gd.
+"""
+
 extends AnimatedSprite2D
 
 var dir_to_letters = {-1: "L", 1: "R"}

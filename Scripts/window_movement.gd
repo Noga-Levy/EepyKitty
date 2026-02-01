@@ -1,3 +1,10 @@
+"""
+Written in December 2025 to February of 2026 by Noga Levy.
+
+This program acts as the brains to the emergent behavior system, handling the window movement and
+calculations.
+"""
+
 extends Node2D
 
 var screen_size = DisplayServer.screen_get_size()

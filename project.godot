@@ -16,8 +16,7 @@ config/auto_accept_quit=false
 config/features=PackedStringArray("4.5", "GL Compatibility")
 boot_splash/bg_color=Color(0.14117648, 0.14117648, 0.14117648, 0)
 boot_splash/show_image=false
-boot_splash/image="uid://dpqnqct1cdf3o"
-config/icon="uid://dpqnqct1cdf3o"
+config/icon="uid://bs4ve02q08cd1"
 
 [display]
 

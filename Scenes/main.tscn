@@ -1,6 +1,6 @@
 [gd_scene load_steps=35 format=3 uid="uid://dvmvwheeocy0d"]
 
-[ext_resource type="Script" uid="uid://cch46guopnxdi" path="res://Scripts/window-movement.gd" id="1_21xkr"]
+[ext_resource type="Script" uid="uid://cch46guopnxdi" path="res://Scripts/window_movement.gd" id="1_21xkr"]
 [ext_resource type="Texture2D" uid="uid://c8tgcdgjp18ny" path="res://Assets/WhiteCatIdle.png" id="1_bo1nx"]
 [ext_resource type="Texture2D" uid="uid://cuvv37yvf8pvq" path="res://Assets/Damage/DamageL.png" id="2_6bp64"]
 [ext_resource type="Texture2D" uid="uid://c1m8as5exgv60" path="res://Assets/Run/WhiteCatRunL.png" id="2_jjvhh"]
@@ -228,6 +228,7 @@ scale = Vector2(4.84, 4.84)
 sprite_frames = SubResource("SpriteFrames_ueoa1")
 animation = &"damageL"
 autoplay = "idle"
+frame_progress = 0.6555729
 script = ExtResource("5_kry3j")
 
 [connection signal="action" from="." to="Cat" method="_on_movement_action"]
