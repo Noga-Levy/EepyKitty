@@ -24,19 +24,25 @@ var stress = 0
 var stress_incr: float = 0.9  # The smallest factor for which base stress can increase to
 var stress_decr: float = 0.01 # The smallest factor for which base stress can decrease
 
-
-const ENERGY_MIN: float = 0
-const ENERGY_MAX: float = 2
-var energy: float = 1
-var energy_dlt = 0
+# These will be the main variables for the energy system. When the cat runs around, energy 
+# decreases, with the amount proportional to the stress level. Additionally, when idling, the energy
+# increases. If energy reaches 0, the cat stops whatever it's doing and idles, with an increased
+# energy_dlt amount.
+const ENERGY_MIN: float = 0  # ENERGY MINIMUM, so it cannot go into the negative, breaking some of
+							 # the calculations and functionality.
+const ENERGY_MAX: float = 2  # ENERGY MAXIMUM, so it cannot get infinitely higher, encountering the
+							 # same issue as with stress (when it did not have a limiter).
+var energy: float = 1        # ENERGY itself, the variable that gets acted upon and acts upon others
+var energy_dlt = 0           # ENERGY DELTA, the change in energy.
 
 # A random int will be selected from 0 to range_idle to deteremine if the cat will go idle. The 
 # larger range_idle is, the less likely
 var range_idle = 1  # More stress = higher number
 
 # This will act as the timer until the cat randomly switches direction
-var switch_dir_cd = 3
+var switch_dir_cd = 0  # Starts at 0, usually will be at 3
 
+# Finally, we have the speed of the cat, which will be defined later in the code.
 var speed
 
 func _ready() -> void:
@@ -159,6 +165,7 @@ func _process(delta: float) -> void:
 		get_window().position.y += y * 2 * speed
 		energy += energy_dlt * (stress + 1)
 		
+		# Deals with energy when it reaches 0
 		if energy <= 0:
 			x = 0
 			y = 0
