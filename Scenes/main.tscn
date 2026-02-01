@@ -228,7 +228,7 @@ scale = Vector2(4.84, 4.84)
 sprite_frames = SubResource("SpriteFrames_ueoa1")
 animation = &"damageL"
 autoplay = "idle"
-frame_progress = 0.6555729
+frame_progress = 0.0011902174
 script = ExtResource("5_kry3j")
 
 [connection signal="action" from="." to="Cat" method="_on_movement_action"]

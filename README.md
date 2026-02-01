@@ -29,9 +29,5 @@ Head over to [releases](https://github.com/Noga-Levy/EepyKitty/releases/), and d
 
 To close the application, go to the taskbar and click the `X` button.
 
-## Known Bugs
-The user can force the cat to go on "overdrive" by repeatedly hitting it with their mouse, as, after passing a certain threshold, the stress variable increases more than it decreases. A fix is on its way.
-If you find any other issues, please add them to its [GitHub Issues](https://github.com/Noga-Levy/EepyKitty/issues) page.
-
 ## License
 EepyKitty is licensed under the MIT License -- see the [LICENSE](https://github.com/Noga-Levy/EepyKitty/blob/master/LICENSE) file for details.
