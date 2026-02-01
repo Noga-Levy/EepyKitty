@@ -148,7 +148,6 @@ func _is_touching_edge():
 
 func _process(delta: float) -> void:
 	_is_touching_edge()
-	energy += energy_dlt
 	energy = clampf(energy, ENERGY_MIN, ENERGY_MAX)
 	speed = 1 + stress
 	print(str(energy) + ", " + str(stress) + ", " + str(range_idle))
@@ -158,6 +157,15 @@ func _process(delta: float) -> void:
 		# Update window position
 		get_window().position.x += x * 2 * speed # Later, we can take this coords and plot them
 		get_window().position.y += y * 2 * speed
+		energy += energy_dlt * (stress + 1)
+		
+		if energy <= 0:
+			x = 0
+			y = 0
+			emit_signal("action", 0, 0)
+			switch_dir_cd = 2
+			stress_decr = 0.02
+			energy_dlt = 0.02
 		
 		# Countdown until the cat randomly changes direction
 		if switch_dir_cd > 0:
@@ -176,10 +184,9 @@ func _process(delta: float) -> void:
 			emit_signal("action", 0, 0)
 			switch_dir_cd = 3
 			stress_decr = 0.02
-			energy_dlt = 0.02
+			energy_dlt = 0.01
 			
 		# Decreases stress if it is above 0, and increases range_idle (for the same prerequisites)
 		if stress > 0:
 			stress -= stress_decr
-			var infinity = int(INF)
-			range_idle = 1 + clampi(roundi(10 * stress - energy), 0, infinity)
+			range_idle = 1 + clampi(roundi(10 * stress - energy), 0, 100)
