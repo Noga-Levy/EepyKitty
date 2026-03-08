@@ -5,7 +5,7 @@
 
 Introducing EepyKitty, an emergent behavior AI placed into... a virtual pet?
 
-Using simple rules, EepyKitty plans to mimic cat-like behavior via a stress-based system. Future versions will include energy-based rules and an option to show graphs displaying variable information over time.
+Using simple rules, EepyKitty plans to mimic cat-like behavior via a stress-based system. Future versions will include graphs displaying variable information over time.
 
 ## Logic
 **Language: GDScript**
@@ -20,8 +20,6 @@ The main scene tree looks like so:
 
 Increased stress leads to increased speed and a lower likelihood of idling. Stress decreases over time, and increases as the cat bumps into screen edges and the user's mouse. 
 
-An energy system, which will keep the cat from forever increasing its stress, is in the works.
-
 ## Installation
 *Note: Only works on the Windows OS.*
 
@@ -30,4 +28,4 @@ Head over to [releases](https://github.com/Noga-Levy/EepyKitty/releases/), and d
 To close the application, go to the taskbar and click the `X` button.
 
 ## License
-EepyKitty is licensed under the MIT License -- see the [LICENSE](https://github.com/Noga-Levy/EepyKitty/blob/master/LICENSE) file for details.
+EepyKitty is licensed under the MIT License--see the [LICENSE](https://github.com/Noga-Levy/EepyKitty/blob/master/LICENSE) file for details.

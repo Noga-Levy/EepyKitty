@@ -9,9 +9,15 @@ extends AnimatedSprite2D
 
 var dir_to_letters = {-1: "L", 1: "R"}
 
+func _ready() -> void:
+	Global.action.connect(_on_movement_action)
+
 func _on_movement_action(speed: Variant, direction: Variant) -> void:
 	if direction == 0:
-		self.play("idle")
+		if speed == -1:
+			self.play("sleep")
+		else:
+			self.play("idle")
 	elif speed == 0:
 		self.play("damage" + dir_to_letters[direction])
 	else:

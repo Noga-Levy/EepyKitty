@@ -1,12 +1,14 @@
-[gd_scene load_steps=35 format=3 uid="uid://dvmvwheeocy0d"]
+[gd_scene load_steps=41 format=3 uid="uid://dvmvwheeocy0d"]
 
 [ext_resource type="Script" uid="uid://cch46guopnxdi" path="res://Scripts/window_movement.gd" id="1_21xkr"]
-[ext_resource type="Texture2D" uid="uid://c8tgcdgjp18ny" path="res://Assets/WhiteCatIdle.png" id="1_bo1nx"]
-[ext_resource type="Texture2D" uid="uid://cuvv37yvf8pvq" path="res://Assets/Damage/DamageL.png" id="2_6bp64"]
-[ext_resource type="Texture2D" uid="uid://c1m8as5exgv60" path="res://Assets/Run/WhiteCatRunL.png" id="2_jjvhh"]
-[ext_resource type="Texture2D" uid="uid://s5o5t6btmv2w" path="res://Assets/Damage/DamageR.png" id="3_344ge"]
-[ext_resource type="Texture2D" uid="uid://drjyf2i7na3ov" path="res://Assets/Run/WhiteCatRunR.png" id="3_kry3j"]
+[ext_resource type="Texture2D" uid="uid://c8tgcdgjp18ny" path="res://Assets/Cat/WhiteCatIdle.png" id="1_bo1nx"]
+[ext_resource type="Texture2D" uid="uid://cuvv37yvf8pvq" path="res://Assets/Cat/Damage/DamageL.png" id="2_6bp64"]
+[ext_resource type="Texture2D" uid="uid://c1m8as5exgv60" path="res://Assets/Cat/Run/WhiteCatRunL.png" id="2_jjvhh"]
+[ext_resource type="Texture2D" uid="uid://s5o5t6btmv2w" path="res://Assets/Cat/Damage/DamageR.png" id="3_344ge"]
+[ext_resource type="Texture2D" uid="uid://drjyf2i7na3ov" path="res://Assets/Cat/Run/WhiteCatRunR.png" id="3_kry3j"]
 [ext_resource type="Script" uid="uid://bm2rnwfyjx2uw" path="res://Scripts/cat_animation.gd" id="5_kry3j"]
+[ext_resource type="Texture2D" uid="uid://bljlttbpg1seb" path="res://Assets/Cat/pixil-frame-0.png" id="7_ynf5e"]
+[ext_resource type="PackedScene" uid="uid://b3tmwc6xrmuv0" path="res://Scenes/food_bowl.tscn" id="8_344ge"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ynf5e"]
 atlas = ExtResource("2_6bp64")
@@ -112,6 +114,22 @@ region = Rect2(0, 128, 32, 32)
 atlas = ExtResource("3_kry3j")
 region = Rect2(0, 160, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1bgf"]
+atlas = ExtResource("7_ynf5e")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b3802"]
+atlas = ExtResource("7_ynf5e")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fevyy"]
+atlas = ExtResource("7_ynf5e")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hibaj"]
+atlas = ExtResource("7_ynf5e")
+region = Rect2(96, 0, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_ueoa1"]
 animations = [{
 "frames": [{
@@ -216,6 +234,23 @@ animations = [{
 "loop": true,
 "name": &"runR",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h1bgf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b3802")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fevyy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hibaj")
+}],
+"loop": true,
+"name": &"sleep",
+"speed": 1.25
 }]
 
 [node name="Logic" type="Node2D"]
@@ -226,9 +261,10 @@ texture_filter = 1
 position = Vector2(50.99997, 40)
 scale = Vector2(4.84, 4.84)
 sprite_frames = SubResource("SpriteFrames_ueoa1")
-animation = &"damageL"
+animation = &"sleep"
 autoplay = "idle"
-frame_progress = 0.0011902174
+frame_progress = 0.9919843
 script = ExtResource("5_kry3j")
 
-[connection signal="action" from="." to="Cat" method="_on_movement_action"]
+[node name="Food" parent="." instance=ExtResource("8_344ge")]
+visible = false

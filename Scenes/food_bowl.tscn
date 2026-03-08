@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3tmwc6xrmuv0"]
+
+[ext_resource type="Script" uid="uid://djs3tui8ojid0" path="res://Scripts/food_bowl.gd" id="1_f7yq8"]
+[ext_resource type="Texture2D" uid="uid://dc3jmdqhliyni" path="res://Assets/bamba.png" id="2_frlxd"]
+
+[node name="FoodWindow" type="Window"]
+transparent_bg = true
+oversampling_override = 1.0
+position = Vector2i(0, 36)
+size = Vector2i(250, 100)
+script = ExtResource("1_f7yq8")
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Bamba" type="Sprite2D" parent="."]
+position = Vector2(130, 51)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_frlxd")

@@ -18,6 +18,11 @@ boot_splash/bg_color=Color(0.14117648, 0.14117648, 0.14117648, 0)
 boot_splash/show_image=false
 config/icon="uid://bs4ve02q08cd1"
 
+[autoload]
+
+Global="*res://Scripts/Global.gd"
+Activities="*res://Scripts/activities.gd"
+
 [display]
 
 window/size/viewport_width=100
