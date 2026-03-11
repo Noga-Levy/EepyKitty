@@ -23,25 +23,13 @@ var window_mvment = true
 var stress_incr: float = 0.9  # The smallest factor for which base stress can increase to
 var stress_decr: float = 0.01 # The smallest factor for which base stress can decrease
 
-# These will be the main variables for the energy system. When the cat runs around, energy 
-# decreases, with the amount proportional to the stress level. Additionally, when idling, the energy
-# increases. If energy reaches 0, the cat stops whatever it's doing and idles, with an increased
-# energy_dlt amount.
-const ENERGY_MIN: float = 0  # ENERGY MINIMUM, so it cannot go into the negative, breaking some of
-							 # the calculations and functionality.
-const ENERGY_MAX: float = 2  # ENERGY MAXIMUM, so it cannot get infinitely higher, encountering the
-							 # same issue as with stress (when it did not have a limiter).
 var energy_dlt = 0           # ENERGY DELTA, the change in energy.
 
 # A random int will be selected from 0 to range_idle to deteremine if the cat will go idle. The 
 # larger range_idle is, the less likely
 var range_idle = 1  # More stress = higher number
 
-# This will act as the timer until the cat randomly switches direction
-var switch_dir_cd = 0  # Starts at 0, usually will be at 3
-
-# Finally, we have the speed of the cat, which will be defined later in the code.
-var speed
+var activity_decider
 
 func _ready() -> void:
 	# And, finally, we'll multiply x and y by the speed of the cat in process to simulate
@@ -86,7 +74,6 @@ func _window_callback(event: int):
 			window_mvment = false
 			await get_tree().create_timer(1).timeout
 			window_mvment = true
-			switch_dir_cd = 3
 			# And add the stress
 			Global.stress += stress_incr * 2
 			Global.action.emit(1 + Global.stress, Global.x)
@@ -106,9 +93,8 @@ func _is_touching_edge():
 			responded_bx = true
 			await get_tree().create_timer(1).timeout
 			window_mvment = true
-			switch_dir_cd = 3
 			Global.stress += stress_incr
-			Global.action.emit(speed, -1)
+			Global.action.emit(Global.speed, -1)
 	else:
 		responded_bx = false
 	
@@ -121,9 +107,8 @@ func _is_touching_edge():
 			responded_sx = true
 			await get_tree().create_timer(1).timeout
 			window_mvment = true
-			switch_dir_cd = 3
 			Global.stress += stress_incr
-			Global.action.emit(speed, 1)
+			Global.action.emit(Global.speed, 1)
 	else:
 		responded_sx = false
 	
@@ -136,9 +121,8 @@ func _is_touching_edge():
 			responded_by = true
 			await get_tree().create_timer(1).timeout
 			window_mvment = true
-			switch_dir_cd = 3
 			Global.stress += stress_incr
-			Global.action.emit(speed, Global.x)
+			Global.action.emit(Global.speed, Global.x)
 	else:
 		responded_by = false
 	
@@ -151,29 +135,33 @@ func _is_touching_edge():
 			responded_sy = true
 			await get_tree().create_timer(1).timeout
 			window_mvment = true
-			switch_dir_cd = 3
 			Global.stress += stress_incr
-			Global.action.emit(speed, Global.x)
+			Global.action.emit(Global.speed, Global.x)
 	else:
 		responded_sy = false
 
 func _process(delta: float) -> void:
 	_is_touching_edge()
-	Global.energy = clampf(Global.energy, ENERGY_MIN, ENERGY_MAX)
+	Global.energy = clampf(Global.energy, Global.ENERGY_MIN, Global.ENERGY_MAX)
 	# Involving both stress and energy--though the latter, less so--we calculate
 	# the speed using powers, since we want to go faster when we have more
 	# stress/energy, and slower when we have less.
-	speed = 1 + pow(1.02, Global.stress) + pow(1.01, Global.energy)/5
-	print(str(Global.energy) + ", " + str(Global.stress) + ", " + str(range_idle))
+	Global.speed = 1 + pow(1.02, Global.stress) + pow(1.01, Global.energy)/5
+	print(str(Activities.switch_action_cd)
+		  + ", " + str(Global.x)
+		  + ", " + str(Global.y))
 	
 	#  If actions can/should be taken...
 	if window_mvment:
-		# Update window position
-		if Global.x * 2 * speed == 0 and Global.y * 2 * speed != 0:
+		# Check for unintended behavior
+		if Global.x * 2 * Global.speed == 0 and Global.y * 2 * Global.speed != 0:
+			# Response for said behavior
 			push_error("The change in x = 0, and the change in y is not.")
-		get_window().position.x += Global.x * 2 * speed # Later, we can take this coords and plot
-		# them
-		get_window().position.y += Global.y * 2 * speed
+			
+		# Update window position
+		get_window().position.x += Global.x * 2 * Global.speed # Later, we can take this coords and
+		# plot them
+		get_window().position.y += Global.y * 2 * Global.speed
 		Global.energy += energy_dlt * (Global.stress + 1)
 		
 		# Deals with energy when it reaches 0
@@ -181,11 +169,19 @@ func _process(delta: float) -> void:
 			Global.x = 0
 			Global.y = 0
 			Global.action.emit(-1, 0)
-			switch_dir_cd = 2
 			stress_decr = 0.02
 			energy_dlt = 0.02
 		
-		Activities.WANDER(delta, range_idle, stress_decr, energy_dlt)
+		if not Global.goal_in_progress:
+			activity_decider = ["WANDER", "REST"].pick_random()
+			print(activity_decider)
+			Global.goal_in_progress = true
+		else:
+			if activity_decider == "WANDER":
+				Activities.WANDER(delta, range_idle, stress_decr, energy_dlt)
+			else:
+				Activities.REST(delta, energy_dlt)
+			
 		
 		# Decreases stress if it is above 0, and increases range_idle (for the same prerequisites)
 		if Global.stress > 0:

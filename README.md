@@ -1,4 +1,4 @@
-![Example of EepyKitty](https://github.com/Noga-Levy/EepyKitty/blob/master/images/example_img.png?raw=true)
+![Example of EepyKitty](https://github.com/Noga-Levy/EepyKitty/blob/master/Assets/example_img.png?raw=true)
 
 # EepyKitty
 ### Ever notice how Shimejis can get kind of unrealistic?

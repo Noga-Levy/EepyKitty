@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://drjyf2i7na3ov"
-path="res://.godot/imported/WhiteCatRunR.png-d222305868b28f57679607ecffcea849.ctex"
+path="res://.godot/imported/WhiteCatRunR.png-b771c0e53f381f1486cd0487aa9c13e9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Cat/Run/WhiteCatRunR.png"
-dest_files=["res://.godot/imported/WhiteCatRunR.png-d222305868b28f57679607ecffcea849.ctex"]
+source_file="res://Assets/Cat/In-game/Run/WhiteCatRunR.png"
+dest_files=["res://.godot/imported/WhiteCatRunR.png-b771c0e53f381f1486cd0487aa9c13e9.ctex"]
 
 [params]
 

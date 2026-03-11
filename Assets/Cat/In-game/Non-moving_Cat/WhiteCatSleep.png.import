@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://s5o5t6btmv2w"
-path="res://.godot/imported/DamageR.png-314cf73dd64298c135edd605553eeaed.ctex"
+uid="uid://bljlttbpg1seb"
+path="res://.godot/imported/WhiteCatSleep.png-1aed2e16246926c91dd1fcccf82547fe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Cat/Damage/DamageR.png"
-dest_files=["res://.godot/imported/DamageR.png-314cf73dd64298c135edd605553eeaed.ctex"]
+source_file="res://Assets/Cat/In-game/Non-moving_Cat/WhiteCatSleep.png"
+dest_files=["res://.godot/imported/WhiteCatSleep.png-1aed2e16246926c91dd1fcccf82547fe.ctex"]
 
 [params]
 

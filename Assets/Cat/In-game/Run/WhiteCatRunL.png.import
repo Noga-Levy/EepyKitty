@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bljlttbpg1seb"
-path="res://.godot/imported/pixil-frame-0.png-d613143df32b47ee40ad1402db926625.ctex"
+uid="uid://c1m8as5exgv60"
+path="res://.godot/imported/WhiteCatRunL.png-01c518fbeee6186b5bfeff9016ee6a4c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Cat/pixil-frame-0.png"
-dest_files=["res://.godot/imported/pixil-frame-0.png-d613143df32b47ee40ad1402db926625.ctex"]
+source_file="res://Assets/Cat/In-game/Run/WhiteCatRunL.png"
+dest_files=["res://.godot/imported/WhiteCatRunL.png-01c518fbeee6186b5bfeff9016ee6a4c.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvfvghn05fo6r"
-path="res://.godot/imported/box.png-d8a42163294904a91a39914a0d1a7069.ctex"
+uid="uid://c8tgcdgjp18ny"
+path="res://.godot/imported/WhiteCatIdle.png-4d8fc5b87b2149e1d968c80407b18063.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Cat/Run/box.png"
-dest_files=["res://.godot/imported/box.png-d8a42163294904a91a39914a0d1a7069.ctex"]
+source_file="res://Assets/Cat/In-game/Non-moving_Cat/WhiteCatIdle.png"
+dest_files=["res://.godot/imported/WhiteCatIdle.png-4d8fc5b87b2149e1d968c80407b18063.ctex"]
 
 [params]
 
