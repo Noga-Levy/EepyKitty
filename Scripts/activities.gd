@@ -11,6 +11,10 @@ func WANDER(delta, range_idle, stress_decr, energy_dlt):
 	if switch_action_cd > 0:
 		switch_action_cd -= delta
 		
+		if Global.x == 0 or Global.y == 0:
+			Global.x = Global.dir_opts.pick_random()
+			Global.y = Global.dir_opts.pick_random()
+		
 		if switch_dir_cd > 0:
 			switch_dir_cd -= delta
 			Global.action.emit(Global.speed, Global.x)
@@ -43,6 +47,6 @@ func REST(delta, energy_dlt):
 		Global.energy += energy_dlt * 2 * energy_dlt
 	else:
 		switch_action_cd = 10
-		Global.x = Global.dir_opts.pick_random()
-		Global.y = Global.dir_opts.pick_random()
 		Global.goal_in_progress = false
+		# FIXME: The two lines below cause the cat to move a bit before the next action is decided;
+		# however, it also ensures that, if the next action is WANDER, it will have a direction.
