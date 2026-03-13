@@ -1,5 +1,5 @@
 """
-Written in December 2025 to February of 2026 by Noga Levy.
+Written in December 2025 to March of 2026 by Noga Levy.
 
 This program acts as the brains to the emergent behavior system, handling the window movement and
 calculations.
@@ -23,19 +23,18 @@ var window_mvment = true
 var stress_incr: float = 0.9  # The smallest factor for which base stress can increase to
 var stress_decr: float = 0.01 # The smallest factor for which base stress can decrease
 
-var energy_dlt = 0           # ENERGY DELTA, the change in energy.
+# As for energy, the delta determiner below will be utilized to regulate change in energy.
+var energy_dlt = 0.05
 
 # A random int will be selected from 0 to range_idle to deteremine if the cat will go idle. The 
 # larger range_idle is, the less likely
 var range_idle = 1  # More stress = higher number
 
+# As the name suggests, this variable decides which action to take when the previous on reaches the
+# end.
 var activity_decider
 
 func _ready() -> void:
-	# And, finally, we'll multiply x and y by the speed of the cat in process to simulate
-	# the direction it'll go in.
-	Global.x = 1
-	Global.y = 1
 	# We first ensure that the cat does not get covered by other windows
 	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_ALWAYS_ON_TOP, true)
 	# Next, we detect window callbacks, such as the mouse entering the window, thus touching the cat
@@ -43,9 +42,8 @@ func _ready() -> void:
 	# And make sure that new windows are not embedded into the main one.
 	get_viewport().set_embedding_subwindows(false)
 	$Food.show()
-	# Finally, we set our first animation
-	Global.action.emit(1, Global.x)
 	
+	# Finally, we set the starting values for stress and energy.
 	Global.stress = 0
 	Global.energy = 1
 
@@ -65,19 +63,18 @@ func _window_callback(event: int):
 		responded_by = false
 		responded_sy = false
 		
-		# Now, we begin the reaction
+		# Now, we begin the reaction to the mouse interaction
 		if Global.x != 0:
-			Global.action.emit(0, Global.x)
+			Global.action.emit(0, Global.x)  # Surprised cat animation
+			# Set the change in x and y while we wait for the "right" itself.
 			window_mvment = false
 			Global.x *= -1
 			Global.y *= -1
-			window_mvment = false
 			await get_tree().create_timer(1).timeout
+			# Finally, we add the stress and continue the movement
 			window_mvment = true
-			# And add the stress
 			Global.stress += stress_incr * 2
 			Global.action.emit(1 + Global.stress, Global.x)
-			
 		else:
 			pass
 
@@ -142,14 +139,11 @@ func _is_touching_edge():
 
 func _process(delta: float) -> void:
 	_is_touching_edge()
-	Global.energy = clampf(Global.energy, Global.ENERGY_MIN, Global.ENERGY_MAX)
 	# Involving both stress and energy--though the latter, less so--we calculate
 	# the speed using powers, since we want to go faster when we have more
 	# stress/energy, and slower when we have less.
-	Global.speed = 1 + pow(1.02, Global.stress) + pow(1.01, Global.energy)/5
-	print(str(Activities.switch_action_cd)
-		  + ", " + str(Global.x)
-		  + ", " + str(Global.y))
+	Global.speed = 0.5 + pow(1.05, 2 * Global.stress) + pow(1.01, Global.energy)/5
+	print(Global.speed)
 	
 	#  If actions can/should be taken...
 	if window_mvment:
@@ -162,15 +156,14 @@ func _process(delta: float) -> void:
 		get_window().position.x += Global.x * 2 * Global.speed # Later, we can take this coords and
 		# plot them
 		get_window().position.y += Global.y * 2 * Global.speed
-		Global.energy += energy_dlt * (Global.stress + 1)
+		Global.energy += energy_dlt - (energy_dlt * Global.stress)
+		Global.energy = clampf(Global.energy, Global.ENERGY_MIN, Global.ENERGY_MAX)
 		
 		# Deals with energy when it reaches 0
 		if Global.energy <= 0:
-			Global.x = 0
-			Global.y = 0
-			Global.action.emit(-1, 0)
 			stress_decr = 0.02
-			energy_dlt = 0.02
+			Activities.switch_action_cd = 10
+			activity_decider = "REST"
 		
 		if not Global.goal_in_progress:
 			activity_decider = ["WANDER", "REST"].pick_random()
@@ -185,6 +178,6 @@ func _process(delta: float) -> void:
 		
 		# Decreases stress if it is above 0, and increases range_idle (for the same prerequisites)
 		if Global.stress > 0:
-			Global.stress -= stress_decr * Global.stress  # Decays faster at high stress, 
+			Global.stress -= stress_decr * (Global.stress + 1) # Decays faster at high stress, 
 			# slower at low stress.
 			range_idle = 1 + clampi(roundi(10 * Global.stress - Global.energy), 0, 100)

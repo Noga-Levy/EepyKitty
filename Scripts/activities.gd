@@ -1,3 +1,10 @@
+"""
+Written in March 2026 by Noga Levy.
+
+activities.gd is the collection of all actions the cat can take. By plugging one of the functions
+into the right area of process() in window_movement.gd, one gets the cat to perform the action.
+"""
+
 extends Node
 
 var switch_action_cd = 10
@@ -11,6 +18,7 @@ func WANDER(delta, range_idle, stress_decr, energy_dlt):
 	if switch_action_cd > 0:
 		switch_action_cd -= delta
 		
+		# If the previous action was REST or something similar, we need to pick a direction to go in
 		if Global.x == 0 or Global.y == 0:
 			Global.x = Global.dir_opts.pick_random()
 			Global.y = Global.dir_opts.pick_random()
@@ -39,14 +47,18 @@ func WANDER(delta, range_idle, stress_decr, energy_dlt):
 
 
 func REST(delta, energy_dlt):
-	if switch_action_cd > 0:
-		switch_action_cd -= delta
+	# If REST called for the first time, we must set a couple variables and call an action
+	if switch_action_cd == 10:
+		# These three commands below only need to be emitted once at the beginning
 		Global.x = 0
 		Global.y = 0
 		Global.action.emit(-1, 0)
+	
+	# Since 10 > 0, we don't need to worry about the above if statement not subtracting delta or
+	# increasing Global.energy
+	if switch_action_cd > 0:
+		switch_action_cd -= delta
 		Global.energy += energy_dlt * 2 * energy_dlt
 	else:
 		switch_action_cd = 10
 		Global.goal_in_progress = false
-		# FIXME: The two lines below cause the cat to move a bit before the next action is decided;
-		# however, it also ensures that, if the next action is WANDER, it will have a direction.

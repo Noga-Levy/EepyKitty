@@ -1,4 +1,12 @@
+"""
+Written in February to March 2026 by Noga Levy.
+
+WIP food bowl that will, eventually, be used as part of an action.
+"""
+
 extends Window
+
+var original_energy = 0
 
 func _ready() -> void:
 	# We first ensure that the window does not get covered by other windows
@@ -11,7 +19,6 @@ func _ready() -> void:
 	self.transparent_bg = true
 	# Finally, make sure that new windows are not embedded into this one.
 	get_viewport().set_embedding_subwindows(false)
-	
 
 
 func _close_window():
