@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://s5o5t6btmv2w"
-path="res://.godot/imported/DamageR.png-358051fa95789c62222894c70bec59d5.ctex"
+path="res://.godot/imported/damageR.png-25791f8e8228b9f21338df7889d53252.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Cat/In-game/Damage/DamageR.png"
-dest_files=["res://.godot/imported/DamageR.png-358051fa95789c62222894c70bec59d5.ctex"]
+source_file="res://Assets/Cat/In-game/Damage/damageR.png"
+dest_files=["res://.godot/imported/damageR.png-25791f8e8228b9f21338df7889d53252.ctex"]
 
 [params]
 

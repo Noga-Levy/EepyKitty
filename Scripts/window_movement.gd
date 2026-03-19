@@ -70,13 +70,14 @@ func _window_callback(event: int):
 			window_mvment = false
 			Global.x *= -1
 			Global.y *= -1
-			await get_tree().create_timer(1).timeout
+			await get_tree().create_timer(3).timeout
 			# Finally, we add the stress and continue the movement
 			window_mvment = true
 			Global.stress += stress_incr * 2
 			Global.action.emit(1 + Global.stress, Global.x)
 		else:
 			pass
+
 
 # Function to figure out if the cat has reached the end, and what to do if it has
 func _is_touching_edge():
@@ -137,13 +138,14 @@ func _is_touching_edge():
 	else:
 		responded_sy = false
 
+
 func _process(delta: float) -> void:
+	get_window().move_to_foreground()
 	_is_touching_edge()
 	# Involving both stress and energy--though the latter, less so--we calculate
 	# the speed using powers, since we want to go faster when we have more
 	# stress/energy, and slower when we have less.
 	Global.speed = 0.5 + pow(1.05, 2 * Global.stress) + pow(1.01, Global.energy)/5
-	print(Global.speed)
 	
 	#  If actions can/should be taken...
 	if window_mvment:
@@ -166,14 +168,16 @@ func _process(delta: float) -> void:
 			activity_decider = "REST"
 		
 		if not Global.goal_in_progress:
-			activity_decider = ["WANDER", "REST"].pick_random()
+			activity_decider = ["WANDER", "REST", "EAT"].pick_random()
 			print(activity_decider)
 			Global.goal_in_progress = true
 		else:
 			if activity_decider == "WANDER":
 				Activities.WANDER(delta, range_idle, stress_decr, energy_dlt)
-			else:
+			elif activity_decider == "REST":
 				Activities.REST(delta, energy_dlt)
+			else:
+				Activities.EAT(delta, stress_decr, energy_dlt)
 			
 		
 		# Decreases stress if it is above 0, and increases range_idle (for the same prerequisites)

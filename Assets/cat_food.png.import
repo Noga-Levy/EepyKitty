@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvfvghn05fo6r"
-path="res://.godot/imported/box.png-43165e21ca81d15fc5144c2440f57d0d.ctex"
+uid="uid://bfvduiiqabmws"
+path="res://.godot/imported/cat_food.png-3dd435155233aa8d81f98de3ae8a1fe6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Cat/In-game/Run/box.png"
-dest_files=["res://.godot/imported/box.png-43165e21ca81d15fc5144c2440f57d0d.ctex"]
+source_file="res://Assets/cat_food.png"
+dest_files=["res://.godot/imported/cat_food.png-3dd435155233aa8d81f98de3ae8a1fe6.ctex"]
 
 [params]
 

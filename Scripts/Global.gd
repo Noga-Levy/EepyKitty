@@ -43,3 +43,6 @@ signal action(speed, direction)
 # goal_in_progress, for which we change to true at the beginning of an action
 # and false at the end.
 var goal_in_progress = false
+
+var food_posx
+var food_posy

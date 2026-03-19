@@ -5,6 +5,8 @@ cat_animation.gd, as the name suggests, animates the cat depending on the inform
 "action" signal, sent by window_movement.gd.
 """
 
+# TODO: Draw a new idle and eat animation.
+
 extends AnimatedSprite2D
 
 var dir_to_letters = {-1: "L", 1: "R"}
