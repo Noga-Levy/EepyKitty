@@ -5,7 +5,7 @@ cat_animation.gd, as the name suggests, animates the cat depending on the inform
 "action" signal, sent by window_movement.gd.
 """
 
-# TODO: Draw a new idle and eat animation.
+# TODO: Draw an eat animation.
 
 extends AnimatedSprite2D
 
