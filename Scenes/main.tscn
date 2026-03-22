@@ -277,7 +277,7 @@ scale = Vector2(4.84, 4.84)
 sprite_frames = SubResource("SpriteFrames_ueoa1")
 animation = &"damageL"
 autoplay = "idle"
-frame_progress = 0.3598907
+frame_progress = 0.9235515
 script = ExtResource("5_kry3j")
 
 [node name="Food" parent="." instance=ExtResource("8_344ge")]

@@ -17,18 +17,19 @@ Using a set of simple rules, EepyKitty mimics cat-like behavior via a stress-bas
 ## Logic
 **Language: GDScript**
 
-Utilizing Godot's built-in window management framework, I created a small window that evaluates all input events and state transitions. A separate `AnimatedSprite2D` handles the cat's animation, receiving the information via a signal called "`action`."
+Utilizing Godot's built-in window management framework, the project uses a small window that evaluates all input events and state transitions. A child `AnimatedSprite2D` handles the cat's animation, receiving the information via a signal called "`action`." Moreover, a separate, draggable `Window` scene nested in the main program allows the user to move a food bowl, enabling the user to influence the cat when it gets hungry.
 The main scene tree looks like so:
 
 ```
 ┖╴Logic (Node2D, Root Node) {Connected to window_movement.gd}
 
-	┖╴Cat (AnimatedSprite2D, child node of Logic) {Connected to cat_animation.gd}
+	┖╴Cat (AnimatedSprite2D, child of Logic) {Connected to cat_animation.gd}
+	
+	┖╴Food [food_bowl.tscn] (Window, child of Logic) {Connected to food_bowl.gd}
 ```
 
-Other scripts include
+Additional scripts include the following:
 - `activities.gd` ~ A collection of activities/goals for the cat.
-- `food_bowl.gd` ~ A WIP food window that will, eventually, be used in one of the cat's goals.
 - `Global.gd` ~ A collection of global variables
 
 The cat can choose activities via these scripts. While enacting these goals, two internal variables--stress and energy--affect the cat's behavior.
