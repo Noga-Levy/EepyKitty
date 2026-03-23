@@ -66,19 +66,24 @@ func REST(delta, energy_dlt):
 
 
 func EAT(delta, stress_decr, energy_dlt):
+	# We only want the cat to eat for 5 seconds, so we update switch_action_cd accordingly.
 	if switch_action_cd == 10:
 		switch_action_cd = 5
 	
+	# These two variables will be used in our movement calculations
 	var cat_posx = get_window().position.x
 	var cat_posy = get_window().position.y
 	
 	if switch_action_cd > 0:
+		# When within a certain range of the foodbowl, stop moving, play the eat animation, and 
+		# decrease the countdown
 		if abs(Global.food_posx - cat_posx) < 15 and abs(Global.food_posy - cat_posy) < 15:
 			Global.x = 0
 			Global.y = 0
-			Global.action.emit(-1, 0)
+			Global.action.emit(-2, 0)
 			switch_action_cd -= delta
 		
+		# If it's not, find where the food bowl is, and go to it.
 		else:
 			if (Global.food_posx - cat_posx) < 0:
 				Global.x = -1

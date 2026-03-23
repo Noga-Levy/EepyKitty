@@ -23,5 +23,7 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+	# Later on, when EAT() is called, we'll need the position of the food bowl, so we add the x and
+	# y coordinations to global variables and update it every frame.
 	Global.food_posx = get_window().position.x - offsetx
 	Global.food_posy = get_window().position.y - offsety

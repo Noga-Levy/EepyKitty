@@ -1,10 +1,11 @@
-[gd_scene load_steps=43 format=3 uid="uid://dvmvwheeocy0d"]
+[gd_scene load_steps=50 format=3 uid="uid://dvmvwheeocy0d"]
 
 [ext_resource type="Script" uid="uid://cch46guopnxdi" path="res://Scripts/window_movement.gd" id="1_21xkr"]
 [ext_resource type="Texture2D" uid="uid://c8tgcdgjp18ny" path="res://Assets/Cat/In-game/Non-moving_Cat/WhiteCatIdle.png" id="1_bo1nx"]
 [ext_resource type="Texture2D" uid="uid://cuvv37yvf8pvq" path="res://Assets/Cat/In-game/Damage/damageL.png" id="2_6bp64"]
 [ext_resource type="Texture2D" uid="uid://s5o5t6btmv2w" path="res://Assets/Cat/In-game/Damage/damageR.png" id="3_344ge"]
 [ext_resource type="Texture2D" uid="uid://drjyf2i7na3ov" path="res://Assets/Cat/In-game/Run/WhiteCatRunL.png" id="3_kry3j"]
+[ext_resource type="Texture2D" uid="uid://bunjcrl53wy0w" path="res://Assets/Cat/In-game/Non-moving_Cat/WhiteCatEat.png" id="5_hptm8"]
 [ext_resource type="Script" uid="uid://bm2rnwfyjx2uw" path="res://Scripts/cat_animation.gd" id="5_kry3j"]
 [ext_resource type="Texture2D" uid="uid://je4suvg374yu" path="res://Assets/Cat/In-game/Run/WhiteCatRunR.png" id="5_ynf5e"]
 [ext_resource type="Texture2D" uid="uid://bljlttbpg1seb" path="res://Assets/Cat/In-game/Non-moving_Cat/WhiteCatSleep.png" id="7_ynf5e"]
@@ -41,6 +42,30 @@ region = Rect2(96, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_k12tt"]
 atlas = ExtResource("3_344ge")
 region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hdf80"]
+atlas = ExtResource("5_hptm8")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_536cc"]
+atlas = ExtResource("5_hptm8")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kwxat"]
+atlas = ExtResource("5_hptm8")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aa8k8"]
+atlas = ExtResource("5_hptm8")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqrg6"]
+atlas = ExtResource("5_hptm8")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nwwfm"]
+atlas = ExtResource("5_hptm8")
+region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ueoa1"]
 atlas = ExtResource("1_bo1nx")
@@ -176,6 +201,44 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_hdf80")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_536cc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kwxat")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aa8k8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqrg6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nwwfm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqrg6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aa8k8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kwxat")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_536cc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hdf80")
+}],
+"loop": true,
+"name": &"eat",
+"speed": 4.25
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ueoa1")
 }, {
 "duration": 1.0,
@@ -275,9 +338,9 @@ texture_filter = 1
 position = Vector2(50.99997, 40)
 scale = Vector2(4.84, 4.84)
 sprite_frames = SubResource("SpriteFrames_ueoa1")
-animation = &"damageL"
+animation = &"eat"
 autoplay = "idle"
-frame_progress = 0.9235515
+frame_progress = 0.60621876
 script = ExtResource("5_kry3j")
 
 [node name="Food" parent="." instance=ExtResource("8_344ge")]
