@@ -32,7 +32,7 @@ var range_idle = 1  # More stress = higher number
 
 # As the name suggests, this variable decides which action to take when the previous on reaches the
 # end.
-var activity_decider
+var next_activity
 
 func _ready() -> void:
 	# We first ensure that the cat does not get covered by other windows
@@ -145,14 +145,14 @@ func _process(delta: float) -> void:
 	# Involving both stress and energy--though the latter, less so--we calculate
 	# the speed using powers, since we want to go faster when we have more
 	# stress/energy, and slower when we have less.
-	Global.speed = 0.5 + pow(1.05, 2 * Global.stress) + pow(1.01, Global.energy)/5
+	Global.speed = 0.5 + pow(1.06, 2 * Global.stress) + pow(1.01, 2 * Global.energy)/5
 	
 	#  If actions can/should be taken...
 	if window_mvment:
 		# Check for unintended behavior
 		if Global.x * 2 * Global.speed == 0 and Global.y * 2 * Global.speed != 0:
 			# Response for said behavior
-			push_error("The change in x = 0, and the change in y is not.")
+			assert(false, "The change in x = 0, and the change in y is not.")
 			
 		# Update window position
 		get_window().position.x += Global.x * 2 * Global.speed # Later, we can take this coords and
@@ -165,16 +165,16 @@ func _process(delta: float) -> void:
 		if Global.energy <= 0:
 			stress_decr = 0.02
 			Activities.switch_action_cd = 10
-			activity_decider = "REST"
+			next_activity = "REST"
 		
 		if not Global.goal_in_progress:
-			activity_decider = ["WANDER", "REST", "EAT"].pick_random()
-			print(activity_decider)
+			next_activity = Activities.activity_decider()
+			print(next_activity)
 			Global.goal_in_progress = true
 		else:
-			if activity_decider == "WANDER":
+			if next_activity == "WANDER":
 				Activities.WANDER(delta, range_idle, stress_decr, energy_dlt)
-			elif activity_decider == "REST":
+			elif next_activity == "REST":
 				Activities.REST(delta, energy_dlt)
 			else:
 				Activities.EAT(delta, stress_decr, energy_dlt)

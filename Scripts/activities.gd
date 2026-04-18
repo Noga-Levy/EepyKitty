@@ -10,6 +10,32 @@ extends Node
 var switch_action_cd = 10
 var switch_dir_cd = 3
 
+# NOTE: The function below is not an activity--it is merely the function for deciding the next 
+# activity
+
+func activity_decider():
+	print("{stress}, {energy}, {speed}".format({"stress": Global.stress, "energy": Global.energy, "speed": Global.speed}))
+	# Used for deciding the next activity via a set of equations for each one--whichever yields the
+	# highest value becomes the next "goal."
+	
+	# Setup variables
+	var e = exp(1.0)
+	var score = {"WANDER": 0, "REST": 0, "EAT": 0}
+	
+	# Equations:
+	score["WANDER"] = (Global.energy * 0.5) - (Global.stress * 2)  # Wandering score
+	score["REST"] = (Global.stress * 3) - Global.energy/2  		   # Resting score
+	score["EAT"] = 2 * e ** (-((Global.energy - 2.5)**2)/0.5)  	   # Eating score
+	
+	print(score)
+	
+	var current_goal
+	current_goal = score.values().max()
+	current_goal = score.find_key(current_goal)
+	
+	return current_goal
+
+
 # NOTE: These functions/actions will be called every time proccess is run. This is intentional, as
 # we must be able to subtract delta from process() of the main file.
 

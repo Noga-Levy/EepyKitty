@@ -229,9 +229,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_536cc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hdf80")
 }],
 "loop": true,
 "name": &"eat",
@@ -264,7 +261,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
-"speed": 2.9
+"speed": 3.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -338,9 +335,9 @@ texture_filter = 1
 position = Vector2(50.99997, 40)
 scale = Vector2(4.84, 4.84)
 sprite_frames = SubResource("SpriteFrames_ueoa1")
-animation = &"eat"
+animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.60621876
+frame_progress = 0.74483263
 script = ExtResource("5_kry3j")
 
 [node name="Food" parent="." instance=ExtResource("8_344ge")]
