@@ -58,14 +58,14 @@ func WANDER(delta, range_idle, stress_decr, energy_dlt):
 			Global.y =  Global.dir_opts.pick_random()
 			Global.action.emit(Global.speed, Global.x)
 			switch_dir_cd = 3
-			stress_decr = 0.01
+			stress_decr = 0.001
 			energy_dlt = -0.01
 		else:
 			Global.x = 0
 			Global.y = 0
 			Global.action.emit(0, 0)
 			switch_dir_cd = 3
-			stress_decr = 0.02
+			stress_decr = 0.002
 			energy_dlt = 0.01
 	
 	else:
@@ -121,7 +121,7 @@ func EAT(delta, stress_decr, energy_dlt):
 			else:
 				Global.y = 1
 			
-			stress_decr = 0.01
+			stress_decr = 0.001
 			energy_dlt = -0.01
 			
 			Global.action.emit(Global.speed, Global.x)

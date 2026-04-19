@@ -21,10 +21,10 @@ var window_mvment = true
 
 # After bumping into a wall or mouse, the stress increases, and increase's the cat's speed.
 var stress_incr: float = 0.9  # The smallest factor for which base stress can increase to
-var stress_decr: float = 0.01 # The smallest factor for which base stress can decrease
+var stress_decr: float = 0.001 # The smallest factor for which base stress can decrease
 
 # As for energy, the delta determiner below will be utilized to regulate change in energy.
-var energy_dlt = 0.05
+var energy_dlt = 0.01
 
 # A random int will be selected from 0 to range_idle to deteremine if the cat will go idle. The 
 # larger range_idle is, the less likely
@@ -163,7 +163,7 @@ func _process(delta: float) -> void:
 		
 		# Deals with energy when it reaches 0
 		if Global.energy <= 0:
-			stress_decr = 0.02
+			stress_decr = 0.002
 			Activities.switch_action_cd = 10
 			next_activity = "REST"
 		
