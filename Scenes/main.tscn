@@ -180,7 +180,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"damageL",
-"speed": 1.25
+"speed": 2.25
 }, {
 "frames": [{
 "duration": 1.0,
@@ -197,7 +197,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"damageR",
-"speed": 1.25
+"speed": 2.25
 }, {
 "frames": [{
 "duration": 1.0,
@@ -335,9 +335,8 @@ texture_filter = 1
 position = Vector2(50.99997, 40)
 scale = Vector2(4.84, 4.84)
 sprite_frames = SubResource("SpriteFrames_ueoa1")
-animation = &"idle"
+animation = &"damageR"
 autoplay = "idle"
-frame_progress = 0.7952499
 script = ExtResource("5_kry3j")
 
 [node name="Food" parent="." instance=ExtResource("8_344ge")]
