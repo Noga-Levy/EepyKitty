@@ -41,19 +41,24 @@ func activity_decider():
 
 
 func WANDER(delta, range_idle, stress_decr, energy_dlt):
+	# if WANDER just started and the previous action was REST or something similar, we need to pick
+	# a direction to go in. Moreover, we also need to set switch_dir_cd to 0 so we can choose our 
+	# next action.
+	if switch_action_cd == 10 and (Global.x == 0 or Global.y == 0):
+			Global.x = Global.dir_opts.pick_random()
+			Global.y = Global.dir_opts.pick_random()
+			switch_dir_cd = 0
+	
 	# Countdown until the cat randomly changes direction
 	if switch_action_cd > 0:
 		switch_action_cd -= delta
 		
-		# If the previous action was REST or something similar, we need to pick a direction to go in
-		if Global.x == 0 or Global.y == 0:
-			Global.x = Global.dir_opts.pick_random()
-			Global.y = Global.dir_opts.pick_random()
-		
 		if switch_dir_cd > 0:
 			switch_dir_cd -= delta
 			Global.action.emit(Global.speed, Global.x)
+			
 		elif randi_range(0, range_idle) != 0:
+			print("Not 0. {range}".format({"range": range_idle}))
 			Global.x = Global.dir_opts.pick_random()
 			Global.y =  Global.dir_opts.pick_random()
 			Global.action.emit(Global.speed, Global.x)
@@ -61,10 +66,11 @@ func WANDER(delta, range_idle, stress_decr, energy_dlt):
 			stress_decr = 0.001
 			energy_dlt = -0.01
 		else:
+			print("Is 0. {range}".format({"range": range_idle}))
 			Global.x = 0
 			Global.y = 0
 			Global.action.emit(0, 0)
-			switch_dir_cd = 3
+			switch_dir_cd = 5
 			stress_decr = 0.002
 			energy_dlt = 0.01
 	
