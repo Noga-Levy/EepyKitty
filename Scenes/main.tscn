@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://dvmvwheeocy0d"]
+[gd_scene format=3 uid="uid://dvmvwheeocy0d"]
 
 [ext_resource type="Script" uid="uid://cch46guopnxdi" path="res://Scripts/window_movement.gd" id="1_21xkr"]
 [ext_resource type="Texture2D" uid="uid://c8tgcdgjp18ny" path="res://Assets/Cat/In-game/Non-moving_Cat/WhiteCatIdle.png" id="1_bo1nx"]
@@ -327,10 +327,10 @@ animations = [{
 "speed": 1.25
 }]
 
-[node name="Logic" type="Node2D"]
+[node name="Logic" type="Node2D" unique_id=2086139331]
 script = ExtResource("1_21xkr")
 
-[node name="Cat" type="AnimatedSprite2D" parent="."]
+[node name="Cat" type="AnimatedSprite2D" parent="." unique_id=1121685304]
 texture_filter = 1
 position = Vector2(50.99997, 40)
 scale = Vector2(4.84, 4.84)
@@ -339,5 +339,5 @@ animation = &"damageR"
 autoplay = "idle"
 script = ExtResource("5_kry3j")
 
-[node name="Food" parent="." instance=ExtResource("8_344ge")]
+[node name="Food" parent="." unique_id=1474504538 instance=ExtResource("8_344ge")]
 visible = false

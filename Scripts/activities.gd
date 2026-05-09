@@ -14,7 +14,8 @@ var switch_dir_cd = 3
 # activity
 
 func activity_decider():
-	print("{stress}, {energy}, {speed}".format({"stress": Global.stress, "energy": Global.energy, "speed": Global.speed}))
+	print("{stress}, {energy}, {speed}".format({"stress": Global.stress, "energy": Global.energy,
+	"speed": Global.speed}))
 	# Used for deciding the next activity via a set of equations for each one--whichever yields the
 	# highest value becomes the next "goal."
 	
