@@ -43,6 +43,21 @@ func _ready() -> void:
 	get_viewport().set_embedding_subwindows(false)
 	$Food.show()
 	
+	Global.cat_window_id = get_window().get_window_id()
+	
+	# Now, we must set up our comfort grid--the real "emergent behavior" part of this AI.
+	# To do that, we find the dimensions of the current screen so we can create a grid with a global
+	# dictionary
+	var screen_dimensions: Vector2 = DisplayServer.screen_get_size(DisplayServer.window_get_current_screen())
+	var grid_square_size = 50
+	
+	for i in range(0, screen_dimensions.x + grid_square_size, grid_square_size):
+		for j in range(0, screen_dimensions.y + grid_square_size, grid_square_size):
+			# Grids will be identified by their lowest value. So, the coordinates (10, 90) would,
+			# for example, be in the grid [0, 50].
+			var current_grid = {[i, j] : 0}
+			Global.comfort_grid.merge(current_grid) # This value will be updated as the program runs.
+	
 	# Finally, we set the starting values for stress and energy.
 	Global.stress = 0
 	Global.energy = 1
@@ -169,8 +184,8 @@ func _process(delta: float) -> void:
 		
 		if not Global.goal_in_progress:
 			next_activity = Activities.activity_decider()
-			print(next_activity)
 			Global.goal_in_progress = true
+			print(Global.comfort_grid)
 		else:
 			if next_activity == "WANDER":
 				Activities.WANDER(delta, range_idle, stress_decr, energy_dlt)

@@ -46,3 +46,6 @@ var goal_in_progress = false
 
 var food_posx
 var food_posy
+
+var comfort_grid = {}
+var cat_window_id

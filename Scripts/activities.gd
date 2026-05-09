@@ -10,8 +10,22 @@ extends Node
 var switch_action_cd = 10
 var switch_dir_cd = 3
 
+
+# NOTE: The function below is not an activity--it is merely the function for finding the current
+# comfort grid, for which we often need.
+
+
+func grid_coordinate():
+	var current_coords = DisplayServer.window_get_position(Global.cat_window_id)
+	var current_grid_x = floor(current_coords.x/50) * 50
+	var current_grid_y = floor(current_coords.y/50) * 50
+	
+	return [current_grid_x, current_grid_y]
+
+
 # NOTE: The function below is not an activity--it is merely the function for deciding the next 
 # activity
+
 
 func activity_decider():
 	print("{stress}, {energy}, {speed}".format({"stress": Global.stress, "energy": Global.energy,
@@ -74,6 +88,10 @@ func WANDER(delta, range_idle, stress_decr, energy_dlt):
 			switch_dir_cd = 5
 			stress_decr = 0.002
 			energy_dlt = 0.01
+			
+			# We calculate the grid coordinates and increase the comfort of the square
+			var grid_square = grid_coordinate()
+			Global.comfort_grid[grid_square] += 0.01
 	
 	else:
 		Global.goal_in_progress = false
@@ -91,6 +109,10 @@ func REST(delta, energy_dlt):
 	# Since 10 > 0, we don't need to worry about the above if statement not subtracting delta or
 	# increasing Global.energy
 	if switch_action_cd > 0:
+		# We calculate the grid coordinates and increase the comfort of the square
+		var grid_square = grid_coordinate()
+		Global.comfort_grid[grid_square] += 0.01
+		# And now we deal with the variables
 		switch_action_cd -= delta
 		Global.energy += energy_dlt * 2 * energy_dlt
 	else:
@@ -115,6 +137,10 @@ func EAT(delta, stress_decr, energy_dlt):
 			Global.y = 0
 			Global.action.emit(-2, 0)
 			switch_action_cd -= delta
+			# As the cat is eating, though, we must also calculate the grid coordinates and increase
+			# the comfort of the square
+			var grid_square = grid_coordinate()
+			Global.comfort_grid[grid_square] += 0.01
 		
 		# If it's not, find where the food bowl is, and go to it.
 		else:
