@@ -95,8 +95,8 @@ func _window_callback(event: int):
 
 
 # Function to figure out if the cat has reached the end, and what to do if it has
+# TODO: Tidy up the function
 func _is_touching_edge():
-	
 	# Right edge
 	if get_window().position.x > screen_size[0] - 110:
 		if not responded_bx:
@@ -108,6 +108,7 @@ func _is_touching_edge():
 			window_mvment = true
 			Global.stress += stress_incr
 			Global.action.emit(Global.speed, -1)
+			Global.comfort_grid[Activities.grid_coordinate()] -= 0.02
 	else:
 		responded_bx = false
 	
@@ -122,6 +123,7 @@ func _is_touching_edge():
 			window_mvment = true
 			Global.stress += stress_incr
 			Global.action.emit(Global.speed, 1)
+			Global.comfort_grid[Activities.grid_coordinate()] -= 0.02
 	else:
 		responded_sx = false
 	
@@ -136,6 +138,7 @@ func _is_touching_edge():
 			window_mvment = true
 			Global.stress += stress_incr
 			Global.action.emit(Global.speed, Global.x)
+			Global.comfort_grid[Activities.grid_coordinate()] -= 0.02
 	else:
 		responded_by = false
 	
@@ -150,6 +153,7 @@ func _is_touching_edge():
 			window_mvment = true
 			Global.stress += stress_incr
 			Global.action.emit(Global.speed, Global.x)
+			Global.comfort_grid[Activities.grid_coordinate()] -= 0.02
 	else:
 		responded_sy = false
 
@@ -164,11 +168,6 @@ func _process(delta: float) -> void:
 	
 	#  If actions can/should be taken...
 	if window_mvment:
-		# Check for unintended behavior
-		if Global.x * 2 * Global.speed == 0 and Global.y * 2 * Global.speed != 0:
-			# Response for said behavior
-			assert(false, "The change in x = 0, and the change in y is not.")
-			
 		# Update window position
 		get_window().position.x += Global.x * 2 * Global.speed # Later, we can take this coords and
 		# plot them
@@ -185,7 +184,6 @@ func _process(delta: float) -> void:
 		if not Global.goal_in_progress:
 			next_activity = Activities.activity_decider()
 			Global.goal_in_progress = true
-			print(Global.comfort_grid)
 		else:
 			if next_activity == "WANDER":
 				Activities.WANDER(delta, range_idle, stress_decr, energy_dlt)
