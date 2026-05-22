@@ -1,4 +1,7 @@
 [gd_resource type="Theme" format=3 uid="uid://2p6w6cet7upd"]
 
+[ext_resource type="FontFile" uid="uid://bh5tyud6y7kfm" path="res://Fonts/Silkscreen-Regular.ttf" id="1_yx32m"]
+
 [resource]
 Label/font_sizes/font_size = 10
+Label/fonts/font = ExtResource("1_yx32m")

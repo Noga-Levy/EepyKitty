@@ -23,6 +23,7 @@ func _ready() -> void:
 	screen_size = DisplayServer.screen_get_size()
 	self.size = screen_size
 	get_viewport().set_embedding_subwindows(false)
+	self.title = "Dev Tools - Comfort Grid Visualizer"
 	
 	# Now, we must set up our comfort grid--the real "emergent behavior" part of this AI.
 	# To do that, we find the dimensions of the current screen so we can create a grid with a global
