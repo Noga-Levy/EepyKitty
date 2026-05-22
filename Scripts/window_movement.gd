@@ -1,5 +1,5 @@
 """
-Written in December 2025 to March of 2026 by Noga Levy.
+Written in December 2025 to May of 2026 by Noga Levy.
 
 This program acts as the brains to the emergent behavior system, handling the window movement and
 calculations.
@@ -42,21 +42,9 @@ func _ready() -> void:
 	# And make sure that new windows are not embedded into the main one.
 	get_viewport().set_embedding_subwindows(false)
 	$Food.show()
+	$Comfort_map.show()
 	
 	Global.cat_window_id = get_window().get_window_id()
-	
-	# Now, we must set up our comfort grid--the real "emergent behavior" part of this AI.
-	# To do that, we find the dimensions of the current screen so we can create a grid with a global
-	# dictionary
-	var screen_dimensions: Vector2 = DisplayServer.screen_get_size(DisplayServer.window_get_current_screen())
-	var grid_square_size = 50
-	
-	for i in range(0, screen_dimensions.x + grid_square_size, grid_square_size):
-		for j in range(0, screen_dimensions.y + grid_square_size, grid_square_size):
-			# Grids will be identified by their lowest value. So, the coordinates (10, 90) would,
-			# for example, be in the grid [0, 50].
-			var current_grid = {[i, j] : 0}
-			Global.comfort_grid.merge(current_grid) # This value will be updated as the program runs.
 	
 	# Finally, we set the starting values for stress and energy.
 	Global.stress = 0
@@ -170,7 +158,7 @@ func _process(delta: float) -> void:
 	if window_mvment:
 		# Update window position
 		get_window().position.x += Global.x * 2 * Global.speed # Later, we can take this coords and
-		# plot them
+															   # plot them
 		get_window().position.y += Global.y * 2 * Global.speed
 		Global.energy += energy_dlt - (energy_dlt * Global.stress)
 		Global.energy = clampf(Global.energy, Global.ENERGY_MIN, Global.ENERGY_MAX)
@@ -196,5 +184,13 @@ func _process(delta: float) -> void:
 		# Decreases stress if it is above 0, and increases range_idle (for the same prerequisites)
 		if Global.stress > 0:
 			Global.stress -= stress_decr * (Global.stress + 1) # Decays faster at high stress, 
-			# slower at low stress.
+															   # slower at low stress.
 			range_idle = 1 + clampi(roundi(10 * Global.stress - Global.energy), 0, 100)
+
+
+func _input(_event: InputEvent) -> void:
+	if Input.is_action_just_released("shift_plus_space"):
+		if $Comfort_map.visible:
+			$Comfort_map.hide()
+		else:
+			$Comfort_map.show()

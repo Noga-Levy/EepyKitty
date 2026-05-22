@@ -1,5 +1,5 @@
 """
-Written in March 2026 by Noga Levy.
+Written in March to May 2026 by Noga Levy.
 
 activities.gd is the collection of all actions the cat can take. By plugging one of the functions
 into the right area of process() in window_movement.gd, one gets the cat to perform the action.
@@ -87,7 +87,6 @@ func WANDER(delta, range_idle, stress_decr, energy_dlt):
 		switch_action_cd -= delta
 		# We update the comfort of the current square as the program progresses.
 		Global.comfort_grid[grid_coordinate()] += comfort_dlt
-		print(Global.comfort_grid[grid_coordinate()])
 		
 		# Countdown until the cat changes direction and/or idling status
 		if switch_dir_cd > 0:

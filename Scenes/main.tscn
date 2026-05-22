@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://je4suvg374yu" path="res://Assets/Cat/In-game/Run/WhiteCatRunR.png" id="5_ynf5e"]
 [ext_resource type="Texture2D" uid="uid://bljlttbpg1seb" path="res://Assets/Cat/In-game/Non-moving_Cat/WhiteCatSleep.png" id="7_ynf5e"]
 [ext_resource type="PackedScene" uid="uid://b3tmwc6xrmuv0" path="res://Scenes/food_bowl.tscn" id="8_344ge"]
+[ext_resource type="PackedScene" uid="uid://ch1shdumootbl" path="res://Scenes/comfort_map.tscn" id="11_d1ilt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ynf5e"]
 atlas = ExtResource("2_6bp64")
@@ -340,4 +341,7 @@ autoplay = "idle"
 script = ExtResource("5_kry3j")
 
 [node name="Food" parent="." unique_id=1474504538 instance=ExtResource("8_344ge")]
+visible = false
+
+[node name="Comfort_map" parent="." unique_id=656634964 instance=ExtResource("11_d1ilt")]
 visible = false

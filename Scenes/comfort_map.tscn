@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://ch1shdumootbl"]
+
+[ext_resource type="Script" uid="uid://g6jdq5pupr0a" path="res://Scripts/comfort_map.gd" id="1_o2fyg"]
+
+[node name="Comfort_map" type="Window" unique_id=656634964]
+oversampling_override = 1.0
+position = Vector2i(0, 36)
+script = ExtResource("1_o2fyg")
