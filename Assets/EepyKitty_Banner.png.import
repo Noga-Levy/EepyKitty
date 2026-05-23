@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cldredaphcf72"
-path="res://.godot/imported/example_img.png-166902be8d4ab0b46d07b7f52aa10bff.ctex"
+uid="uid://3r1n64ddlo6s"
+path="res://.godot/imported/EepyKitty_Banner.png-45e953fe5d7dc8390dbe902735a76577.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/example_img.png"
-dest_files=["res://.godot/imported/example_img.png-166902be8d4ab0b46d07b7f52aa10bff.ctex"]
+source_file="res://Assets/EepyKitty_Banner.png"
+dest_files=["res://.godot/imported/EepyKitty_Banner.png-45e953fe5d7dc8390dbe902735a76577.ctex"]
 
 [params]
 
