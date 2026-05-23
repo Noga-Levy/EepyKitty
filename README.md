@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="https://github.com/Noga-Levy/EepyKitty/blob/master/Assets/EepyKitty_Banner.png?raw=true">
+	<img src="https://github.com/Noga-Levy/EepyKitty/blob/master/Assets/EepyKitty_Banner.png?raw=true" width="50%">
 </p>
 <h1 align="center">EepyKitty</h1>
 <p align="center">
