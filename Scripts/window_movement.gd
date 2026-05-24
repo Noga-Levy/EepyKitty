@@ -42,7 +42,6 @@ func _ready() -> void:
 	# And make sure that new windows are not embedded into the main one.
 	get_viewport().set_embedding_subwindows(false)
 	$Food.show()
-	$Comfort_map.show()
 	
 	Global.cat_window_id = get_window().get_window_id()
 	

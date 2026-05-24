@@ -26,6 +26,8 @@ The main scene tree looks like so:
 	┖╴Cat (AnimatedSprite2D, child of Logic) {Connected to cat_animation.gd}
 	
 	┖╴Food [food_bowl.tscn] (Window, child of Logic) {Connected to food_bowl.gd}
+	
+	┖╴Comfort_map [comfort_map.tscn] (Window, child of Logic) {Connected to comfort_map.gd}
 ```
 
 Additional scripts include the following:
@@ -42,13 +44,15 @@ Key folders include the following:
 - `Assets/` ~ Contains all assets relevant to the program
 - `Scenes/` ~ Contains all the scenes relevant to the program.
 - `Scripts/` ~ Contains all the scripts relevant to the program.
+- `Themes/` ~ Contains all the themes used to stylize the program's elements.
 
 ## Installation
 *Note: Only works on the Windows OS.*
 
-Head over to the [Releases page](https://github.com/Noga-Levy/EepyKitty/releases/), and download the `.exe` file from the most recent release. Click on it to start the program.
+Head over to the [Releases page](https://github.com/Noga-Levy/EepyKitty/releases/), and download the `.exe` file from the most recent release. Click on the `.exe` file to start the program.
 
-To close the application, go to the taskbar and click the `X` button.
+To close the application, go to the taskbar and click the `X` button on the cat's window.
 
 ## License
 EepyKitty is licensed under the MIT License--see the [LICENSE](https://github.com/Noga-Levy/EepyKitty/blob/master/LICENSE) file for details.
+Check [NOTICE.md](https://github.com/Noga-Levy/EepyKitty/blob/master/NOTICE.md) for third-party attribution.
