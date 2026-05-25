@@ -145,9 +145,23 @@ func _is_touching_edge():
 		responded_sy = false
 
 
+# Function (that will be called every time _process runs) to move all of the comfort values to 0,
+# 0.001 points at a time.
+func _decay_comfort():
+	for i in Global.comfort_grid:
+		if Global.comfort_grid[i] > 0:
+			Global.comfort_grid[i] -= 0.001
+		elif Global.comfort_grid[i] < 0:
+			Global.comfort_grid[i] += 0.001
+		
+		# We round the value to the nearest 0.001 avoid floating-point precision errors
+		Global.comfort_grid[i] = snappedf(Global.comfort_grid[i], 0.001)
+
+
 func _process(delta: float) -> void:
 	get_window().move_to_foreground()
 	_is_touching_edge()
+	_decay_comfort()
 	# Involving both stress and energy--though the latter, less so--we calculate
 	# the speed using powers, since we want to go faster when we have more
 	# stress/energy, and slower when we have less.
