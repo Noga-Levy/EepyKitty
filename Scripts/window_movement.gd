@@ -82,7 +82,6 @@ func _window_callback(event: int):
 
 
 # Function to figure out if the cat has reached the end, and what to do if it has
-# TODO: Tidy up the function
 func _is_touching_edge():
 	# Right edge
 	if get_window().position.x > screen_size[0] - 110:
@@ -201,6 +200,8 @@ func _process(delta: float) -> void:
 			range_idle = 1 + clampi(roundi(10 * Global.stress - Global.energy), 0, 100)
 
 
+# Function that listens for inputs, particularly Shift + Space, which the function will use to
+# control the visibility of the comfort map.
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_released("shift_plus_space"):
 		if $Comfort_map.visible:

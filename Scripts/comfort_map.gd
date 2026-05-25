@@ -23,7 +23,7 @@ func _ready() -> void:
 	screen_size = DisplayServer.screen_get_size()
 	self.size = screen_size
 	get_viewport().set_embedding_subwindows(false)
-	self.title = "Dev Tools - Comfort Grid Visualizer"
+	self.title = "EepyKitty - Comfort Grid Visualizer"
 	
 	# Now, we must set up our comfort grid--the real "emergent behavior" part of this AI.
 	# To do that, we find the dimensions of the current screen so we can create a grid with a global
@@ -58,29 +58,23 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if update_cd >= 0:
-		update_cd -= delta
-	else:
-		update_cd = 1
-		print("updating...")
+	count = 0
+	for i in Global.comfort_grid:
+		# We change the color and update the labels accordingly:
+		if current_labels[count].text == str(snappedf(Global.comfort_grid[i], 0.001)):
+			# As time goes on, the red hue of the square fades away as it becomes less recently
+			# updated
+			current_labels[count].modulate.g += 0.004
+			current_labels[count].modulate.b += 0.004
+		else:
+			current_labels[count].text = str(snappedf(Global.comfort_grid[i], 0.001))
+			# When a square is updated, though, its red hue increases dramatically to indicate  
+			# the change.
+			current_labels[count].modulate.g -= 0.0375
+			current_labels[count].modulate.b -= 0.0375
 		
-		count = 0
-		for i in Global.comfort_grid:
-			# We change the color and update the labels accordingly:
-			if current_labels[count].text == str(snappedf(Global.comfort_grid[i], 0.001)):
-				# As time goes on, the red hue of the square fades away as it becomes less recently
-				# updated
-				current_labels[count].modulate.g += 0.0625
-				current_labels[count].modulate.b += 0.0625
-			else:
-				current_labels[count].text = str(snappedf(Global.comfort_grid[i], 0.001))
-				# When a square is updated, though, its red hue increases dramatically to indicate  
-				# the change.
-				current_labels[count].modulate.g -= 0.375
-				current_labels[count].modulate.b -= 0.375
-			
-			# Now, before we loop to the next square/label, we ensure that the b and g values of the
-			# label does not over or underflow.
-			current_labels[count].modulate.b = clamp(current_labels[count].modulate.b, 0.0, 1.0)
-			current_labels[count].modulate.g = clamp(current_labels[count].modulate.g, 0.0, 1.0)
-			count += 1
+		# Now, before we loop to the next square/label, we ensure that the b and g values of the
+		# label does not over or underflow.
+		current_labels[count].modulate.b = clamp(current_labels[count].modulate.b, 0.0, 1.0)
+		current_labels[count].modulate.g = clamp(current_labels[count].modulate.g, 0.0, 1.0)
+		count += 1
