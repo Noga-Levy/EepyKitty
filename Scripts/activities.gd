@@ -1,5 +1,5 @@
 """
-Written in March to May 2026 by Noga Levy.
+Written in March to June 2026 by Noga Levy.
 
 activities.gd is the collection of all actions the cat can take. By plugging one of the functions
 into the right area of process() in window_movement.gd, one gets the cat to perform the action.
@@ -12,14 +12,15 @@ var switch_dir_cd = 3
 var max_comfort_value
 var max_comfort_square
 var comfort_dlt = 0
+const GRID_SQUARE = 50
 
 
 # NOTE: The function below is not an activity--it is merely the function for finding the current
 # comfort grid, for which we often need.
 func grid_coordinate():
 	var current_coords = DisplayServer.window_get_position(Global.cat_window_id)
-	var current_grid_x = floor(current_coords.x/50) * 50
-	var current_grid_y = floor(current_coords.y/50) * 50
+	var current_grid_x = floor(current_coords.x/GRID_SQUARE) * GRID_SQUARE
+	var current_grid_y = floor(current_coords.y/GRID_SQUARE) * GRID_SQUARE
 	
 	return [current_grid_x, current_grid_y]
 
@@ -46,8 +47,10 @@ func find_path(x_current, y_current, x_desired, y_desired):
 # NOTE: Likewise, function below also is not an activity--it is the function for deciding the next 
 # activity
 func activity_decider():
-	print("{stress}, {energy}, {speed}".format({"stress": Global.stress, "energy": Global.energy,
-	"speed": Global.speed}))
+	print("Stess: {stress}, Energy: {energy}, Speed: {speed}".format(
+		{"stress": Global.stress,
+		 "energy": Global.energy,
+		 "speed": Global.speed}))
 	# Used for deciding the next activity via a set of equations for each one--whichever yields the
 	# highest value becomes the next "goal."
 	
@@ -73,7 +76,7 @@ func activity_decider():
 # intentional, as we must be able to subtract delta from process() of the main file.
 
 
-func WANDER(delta, range_idle, stress_decr, energy_dlt):
+func WANDER(delta, range_idle):
 	# If WANDER just started and the previous action was REST or something similar, we need to pick
 	# a direction to go in. Moreover, we also need to set switch_dir_cd to 0 so we can choose our 
 	# next action.
@@ -126,8 +129,8 @@ func WANDER(delta, range_idle, stress_decr, energy_dlt):
 			
 			Global.action.emit(Global.speed, Global.x)
 			switch_dir_cd = 3
-			stress_decr = 0.001
-			energy_dlt = -0.01
+			Global.stress_decr = 0.001
+			Global.energy_dlt = -0.01
 			
 		else:
 			print("Is 0. {range}".format({"range": range_idle}))
@@ -135,8 +138,8 @@ func WANDER(delta, range_idle, stress_decr, energy_dlt):
 			Global.y = 0
 			Global.action.emit(0, 0)
 			switch_dir_cd = 3
-			stress_decr = 0.002
-			energy_dlt = 0.01
+			Global.stress_decr = 0.002
+			Global.energy_dlt = 0.01
 			# Since the cat is idling, the comfort of the square can increase.
 			comfort_dlt = 0.03
 			
@@ -145,7 +148,7 @@ func WANDER(delta, range_idle, stress_decr, energy_dlt):
 		switch_action_cd = 10
 
 
-func REST(delta, energy_dlt):
+func REST(delta):
 	# If REST called for the first time, we must set a couple variables and call an action
 	if switch_action_cd == 10:
 		# These three commands below only need to be emitted once at the beginning
@@ -161,13 +164,22 @@ func REST(delta, energy_dlt):
 		Global.comfort_grid[grid_square] += 0.01
 		# And now we deal with the variables
 		switch_action_cd -= delta
-		Global.energy += energy_dlt * 2 * energy_dlt
+		"""
+		We take the absolute value of energy_dlt because we always want to increase energy after
+		sleeping. Otherwise, if we are at 0 energy, we'll automatically rest with a negative dlt,
+		leading to a glitch where, since the energy must be in the range of [0, 3], we forever
+		have energy at 0 (0 --> rests --> goes negative due to the sign of the dlt --> rounds to 0).
+		"""
+		Global.energy += 2 * abs(Global.energy_dlt)  # We could square the dlt to make it positive,
+													 # but that creates a miniscule value just 
+													 # waiting to cause floating point errors.
+		
 	else:
 		switch_action_cd = 10
 		Global.goal_in_progress = false
 
 
-func EAT(delta, stress_decr, energy_dlt):
+func EAT(delta):
 	# We only want the cat to eat for 5 seconds, so we update switch_action_cd accordingly.
 	if switch_action_cd == 10:
 		switch_action_cd = 5
@@ -201,8 +213,8 @@ func EAT(delta, stress_decr, energy_dlt):
 			else:
 				Global.y = 1
 			
-			stress_decr = 0.001
-			energy_dlt = -0.01
+			Global.stress_decr = 0.001
+			Global.energy_dlt = -0.01
 			
 			Global.action.emit(Global.speed, Global.x)
 	else:

@@ -1,5 +1,5 @@
 """
-Written in December 2025 to May of 2026 by Noga Levy.
+Written in December 2025 to June 2026 by Noga Levy.
 
 This program acts as the brains to the emergent behavior system, handling the window movement and
 calculations.
@@ -20,11 +20,9 @@ var responded_sy = false
 var window_mvment = true
 
 # After bumping into a wall or mouse, the stress increases, and increase's the cat's speed.
-var stress_incr: float = 0.9  # The smallest factor for which base stress can increase to
-var stress_decr: float = 0.001 # The smallest factor for which base stress can decrease
-
-# As for energy, the delta determiner below will be utilized to regulate change in energy.
-var energy_dlt = 0.01
+var stress_incr: float = 0.9  # The factor for which base stress can increase to
+# stress_decr is a variable in Global, as it is used in a number of other scripts. stress_incr, on 
+# the other hand, is only used in this script, so we define it locally.
 
 # A random int will be selected from 0 to range_idle to deteremine if the cat will go idle. The 
 # larger range_idle is, the less likely
@@ -172,12 +170,12 @@ func _process(delta: float) -> void:
 		get_window().position.x += Global.x * 2 * Global.speed # Later, we can take this coords and
 															   # plot them
 		get_window().position.y += Global.y * 2 * Global.speed
-		Global.energy += energy_dlt - (energy_dlt * Global.stress)
+		Global.energy += Global.energy_dlt - (abs(Global.energy_dlt) * Global.stress)
 		Global.energy = clampf(Global.energy, Global.ENERGY_MIN, Global.ENERGY_MAX)
 		
 		# Deals with energy when it reaches 0
 		if Global.energy <= 0:
-			stress_decr = 0.002
+			Global.stress_decr = 0.002
 			Activities.switch_action_cd = 10
 			next_activity = "REST"
 		
@@ -186,17 +184,18 @@ func _process(delta: float) -> void:
 			Global.goal_in_progress = true
 		else:
 			if next_activity == "WANDER":
-				Activities.WANDER(delta, range_idle, stress_decr, energy_dlt)
+				Activities.WANDER(delta, range_idle)
 			elif next_activity == "REST":
-				Activities.REST(delta, energy_dlt)
+				Activities.REST(delta)
 			else:
-				Activities.EAT(delta, stress_decr, energy_dlt)
+				Activities.EAT(delta)
 			
 		
 		# Decreases stress if it is above 0, and increases range_idle (for the same prerequisites)
 		if Global.stress > 0:
-			Global.stress -= stress_decr * (Global.stress + 1) # Decays faster at high stress, 
-															   # slower at low stress.
+			Global.stress -= Global.stress_decr * (Global.stress + 1) # Decays faster at high 
+																	  # stress, slower at low 
+																	  # stress.
 			range_idle = 1 + clampi(roundi(10 * Global.stress - Global.energy), 0, 100)
 
 

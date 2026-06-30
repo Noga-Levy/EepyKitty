@@ -1,5 +1,5 @@
 """
-Written in March 2026 by Noga Levy.
+Written in March to June 2026 by Noga Levy.
 
 Global.gd is a collection of all the global variables used throughout the program.
 """
@@ -7,12 +7,14 @@ Global.gd is a collection of all the global variables used throughout the progra
 extends Node
 
 var stress
+var stress_decr: float = 0.001
 
 # These will be the main variables for the energy system. When the cat runs around, energy 
 # decreases, with the amount proportional to the stress level. Additionally, when idling, the energy
 # increases. If energy reaches 0, the cat stops whatever it's doing and idles, with an increased
 # energy_dlt amount.
 var energy                   # energy itself, the variable that will be acted on.
+var energy_dlt = 0.01        # energy DELTA, the variable regulating change in energy.
 const ENERGY_MIN: float = 0  # ENERGY MINIMUM, so it cannot go into the negative, breaking some of
 							 # the calculations and functionality.
 const ENERGY_MAX: float = 3  # ENERGY MAXIMUM, so it cannot get infinitely higher, encountering the
