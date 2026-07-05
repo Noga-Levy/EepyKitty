@@ -1,5 +1,5 @@
 """
-Written in December 2025 to June 2026 by Noga Levy.
+Written in December of 2025 to June of 2026 by Noga Levy.
 
 This program acts as the brains to the emergent behavior system, handling the window movement and
 calculations.
@@ -32,6 +32,7 @@ var range_idle = 1  # More stress = higher number
 # end.
 var next_activity
 
+
 func _ready() -> void:
 	# We first ensure that the cat does not get covered by other windows
 	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_ALWAYS_ON_TOP, true)
@@ -55,13 +56,17 @@ func _window_callback(event: int):
 	if event == DisplayServer.WINDOW_EVENT_CLOSE_REQUEST:
 		get_tree().quit()
 	
-	# Then we check if the mouse entered the window
+	# Then we check if the mouse entered the window (if it has, the cat becomes spooked)
 	if event == DisplayServer.WINDOW_EVENT_MOUSE_ENTER:
 		# We set these to false so that the user cannot force the cat to go off-screen
 		responded_bx = false
 		responded_sx = false
 		responded_by = false
 		responded_sy = false
+		
+		# And we set these constants for the the reaction.
+		const SPOOKED_MOUSE_TIMEOUT = 3
+		const STRESS_INCR_WEIGHT = 2
 		
 		# Now, we begin the reaction to the mouse interaction
 		if Global.x != 0:
@@ -70,17 +75,35 @@ func _window_callback(event: int):
 			window_mvment = false
 			Global.x *= -1
 			Global.y *= -1
-			await get_tree().create_timer(3).timeout
+			await get_tree().create_timer(SPOOKED_MOUSE_TIMEOUT).timeout
 			# Finally, we add the stress and continue the movement
 			window_mvment = true
-			Global.stress += stress_incr * 2
+			Global.stress += stress_incr * STRESS_INCR_WEIGHT
 			Global.action.emit(1 + Global.stress, Global.x)
 		else:
 			pass
 
 
+# Used in the reaction for _is_touching_edge().
+func _calc_comoft_decline():
+	# Constants for calculating the comfort decline.
+	const TOTAL_WIDTH = 8  # Used for CURVE_DROPOFF, in the equation calculating how wide the curve
+						   # should be
+	const CURVE_DROPOFF = 2 * ((TOTAL_WIDTH/6.0)**2)  # Equation inspired by 2σ²
+	const DESIRABLE_DECLINE = 0.02
+	const MAX_DECLINE_HEIGHT = 0.025
+	var comfort_decline = MAX_DECLINE_HEIGHT * Global.EULERS_NUMBER ** (
+						 -(((Global.stress + Global.energy) - DESIRABLE_DECLINE)
+						 ** 2)/CURVE_DROPOFF)
+	
+	print("Comfort_decline = {comfort_decline}".format({"comfort_decline": comfort_decline}))
+	return comfort_decline
+
 # Function to figure out if the cat has reached the end, and what to do if it has
 func _is_touching_edge():
+	# We set the timeout and comfort decline
+	const SPOOKED_EDGE_TIMEOUT = 1  # How long the cat should stop and play the spooked animation.
+	
 	# Right edge
 	if get_window().position.x > screen_size[0] - 110:
 		if not responded_bx:
@@ -88,11 +111,11 @@ func _is_touching_edge():
 			Global.action.emit(0, 1)
 			window_mvment = false
 			responded_bx = true
-			await get_tree().create_timer(1).timeout
+			await get_tree().create_timer(SPOOKED_EDGE_TIMEOUT).timeout
 			window_mvment = true
 			Global.stress += stress_incr
 			Global.action.emit(Global.speed, -1)
-			Global.comfort_grid[Activities.grid_coordinate()] -= 0.02
+			Global.comfort_grid[Activities.grid_coordinate()] -= _calc_comoft_decline()
 	else:
 		responded_bx = false
 	
@@ -103,11 +126,11 @@ func _is_touching_edge():
 			Global.action.emit(0, -1)
 			window_mvment = false
 			responded_sx = true
-			await get_tree().create_timer(1).timeout
+			await get_tree().create_timer(SPOOKED_EDGE_TIMEOUT).timeout
 			window_mvment = true
 			Global.stress += stress_incr
 			Global.action.emit(Global.speed, 1)
-			Global.comfort_grid[Activities.grid_coordinate()] -= 0.02
+			Global.comfort_grid[Activities.grid_coordinate()] -= _calc_comoft_decline()
 	else:
 		responded_sx = false
 	
@@ -118,11 +141,11 @@ func _is_touching_edge():
 			Global.action.emit(0, Global.x)
 			window_mvment = false
 			responded_by = true
-			await get_tree().create_timer(1).timeout
+			await get_tree().create_timer(SPOOKED_EDGE_TIMEOUT).timeout
 			window_mvment = true
 			Global.stress += stress_incr
 			Global.action.emit(Global.speed, Global.x)
-			Global.comfort_grid[Activities.grid_coordinate()] -= 0.02
+			Global.comfort_grid[Activities.grid_coordinate()] -= _calc_comoft_decline()
 	else:
 		responded_by = false
 	
@@ -133,11 +156,11 @@ func _is_touching_edge():
 			Global.action.emit(0, Global.x)
 			window_mvment = false
 			responded_sy = true
-			await get_tree().create_timer(1).timeout
+			await get_tree().create_timer(SPOOKED_EDGE_TIMEOUT).timeout
 			window_mvment = true
 			Global.stress += stress_incr
 			Global.action.emit(Global.speed, Global.x)
-			Global.comfort_grid[Activities.grid_coordinate()] -= 0.02
+			Global.comfort_grid[Activities.grid_coordinate()] -= _calc_comoft_decline()
 	else:
 		responded_sy = false
 
@@ -145,14 +168,18 @@ func _is_touching_edge():
 # Function (that will be called every time _process runs) to move all of the comfort values to 0,
 # 0.001 points at a time.
 func _decay_comfort():
+	# For rounding, we set the constant ROUND_DP to use throughout the program
+	const ROUND_DP = 0.001
+	# And, to control the decay, we have the constant COMFORT_DECAY set to 0.001
+	const COMFORT_DECAY = 0.001
 	for i in Global.comfort_grid:
 		if Global.comfort_grid[i] > 0:
-			Global.comfort_grid[i] -= 0.001
+			Global.comfort_grid[i] -= COMFORT_DECAY
 		elif Global.comfort_grid[i] < 0:
-			Global.comfort_grid[i] += 0.001
+			Global.comfort_grid[i] += COMFORT_DECAY
 		
-		# We round the value to the nearest 0.001 avoid floating-point precision errors
-		Global.comfort_grid[i] = snappedf(Global.comfort_grid[i], 0.001)
+		# We round the value to the nearest 0.001 (ROUND_DP) avoid floating-point precision errors
+		Global.comfort_grid[i] = snappedf(Global.comfort_grid[i], ROUND_DP)
 
 
 func _process(delta: float) -> void:
@@ -162,7 +189,13 @@ func _process(delta: float) -> void:
 	# Involving both stress and energy--though the latter, less so--we calculate
 	# the speed using powers, since we want to go faster when we have more
 	# stress/energy, and slower when we have less.
-	Global.speed = 0.5 + pow(1.06, 2 * Global.stress) + pow(1.01, 2 * Global.energy)/5
+	const SPEED_BASIS = 0.5   # Base value for speed, for which we add to.
+	const STRESS_BASE = 1.06  # Base of [Global.stress] * [STRESS_WEIGHT]
+	const INTERNAL_WEIGHT = 2 # Weight of internal variables as the exponents.
+	const ENERGY_BASE = 1.01  # Base of [Global.energy] * [ENERGY_WEIGHT]
+	const ENERGY_DIVISOR = 5  # Number for which we divide the effect of Global.energy 
+	Global.speed = SPEED_BASIS + (pow(STRESS_BASE, INTERNAL_WEIGHT * Global.stress) + 
+								  pow(ENERGY_BASE, INTERNAL_WEIGHT * Global.energy)/ENERGY_DIVISOR)
 	
 	#  If actions can/should be taken...
 	if window_mvment:
@@ -196,6 +229,9 @@ func _process(delta: float) -> void:
 			Global.stress -= Global.stress_decr * (Global.stress + 1) # Decays faster at high 
 																	  # stress, slower at low 
 																	  # stress.
+																	
+			# 1 is the minimum value of range_idle, and we set the range for which it can equal to
+			# the interval [1, 101] (as we take [0,100] and add 1 to the value from clampi).
 			range_idle = 1 + clampi(roundi(10 * Global.stress - Global.energy), 0, 100)
 
 

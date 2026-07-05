@@ -1,5 +1,5 @@
 """
-Written in March to June 2026 by Noga Levy.
+Written in March to June of 2026 by Noga Levy.
 
 Global.gd is a collection of all the global variables used throughout the program.
 """
@@ -50,4 +50,8 @@ var food_posx
 var food_posy
 
 var comfort_grid = {}
+var GRID_SQUARE_SIZE = 50 # Size of each square in the comfort grid
 var cat_window_id
+
+const EULERS_NUMBER = exp(1.0)  # We'll need Euler's number for a couple of our values; as it is not
+								# a built-in constant, we just calculate Euler's number 

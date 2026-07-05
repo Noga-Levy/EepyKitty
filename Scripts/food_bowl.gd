@@ -1,5 +1,5 @@
 """
-Written in February to March 2026 by Noga Levy.
+Written in February to June of 2026 by Noga Levy.
 
 WIP food bowl that will, eventually, be used as part of an action.
 """
@@ -8,8 +8,8 @@ extends Window
 
 var mouse_pressed
 var mouse_in_draggable
-var offsetx = -55
-var offsety = -25
+const OFFSET_X = -55
+const OFFSET_Y = -25
 
 
 func _ready() -> void:
@@ -25,5 +25,5 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	# Later on, when EAT() is called, we'll need the position of the food bowl, so we add the x and
 	# y coordinations to global variables and update it every frame.
-	Global.food_posx = get_window().position.x - offsetx
-	Global.food_posy = get_window().position.y - offsety
+	Global.food_posx = get_window().position.x - OFFSET_X
+	Global.food_posy = get_window().position.y - OFFSET_Y
