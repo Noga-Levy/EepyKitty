@@ -1,5 +1,5 @@
 """
-Written in December 2025 to February of 2026 by Noga Levy.
+Written in December of 2025 to June of 2026 by Noga Levy.
 
 cat_animation.gd, as the name suggests, animates the cat depending on the information given in the
 "action" signal, sent by window_movement.gd.
