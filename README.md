@@ -25,15 +25,19 @@ For the most part, the cat is independent of the user; however, the user can int
 Note that the cat is confined by the borders of the monitor the program started on. 
 
 ## Installation
+### Download `.exe` file
 Head over to the [Releases page](https://github.com/Noga-Levy/EepyKitty/releases/), and download the `.exe` file from the most recent release. Click on the `.exe` file to start the program.
 
 *Note: Installation via the `.exe` is only for Windows devices.*
 
+### Build from source
 Alternatively, clone the repository and import the folder into the Godot Editor:
 
 ```
 git clone https://github.com/Noga-Levy/EepyKitty
 ```
+
+Running the project from there will automatically load the right scene.
 
 ## Logic
 **Language: GDScript**
@@ -55,25 +59,7 @@ Additional scripts include the following:
 - `activities.gd` ~ A collection of activities/goals for the cat.
 - `Global.gd` ~ A collection of global variables
 
-The cat can choose activities via these scripts. These activities are selected based on which activity has the highest "score," determined by the largest output of each activity's equation. These equations utilize two internal variables--`Global.stress` and `Global.energy`--to add a bit of preference to the choice.
-
-> Wandering equation:
->
-> $$(w_{\text{energy}} \cdot \text{Global.energy}) - (w_{\text{stress}} \cdot \text{Global.stress}) = W_{\text{score}}$$
-> 
-> $w_{\text{energy}}$ is the weight of the energy, and it's $0.5 \pm 0.2$. Likewise, $w_{\text{stress}}$ is the influence of the cat's stress, equating to $2 \pm 0.5$.
-
-> Resting equation:
->
-> $$(w_{\text{stress}} \cdot \text{Global.stress}) - (0.5 \cdot \text{Global.energy}) = R_{\text{score}}$$
-> 
-> Here, $w_{\text{stress}}$ equals $3.125 \pm 0.375$ and $w_{\text{energy}}$ equals $0.55 \pm 0.15$.
-
->Eating equation:
->
->$$2 \cdot e^{^{\left(-\frac{(\text{Global.energy} - d_{\text{energy}})^2}{0.5} \right)}} = E_{\text{score}}$$
->
->In the equation above, $d_{\text{energy}}$ represents the most desirable energy value/state, which corresponds to $2.5 \pm 0.5$.
+The cat can choose activities via these scripts. These activities are selected based on which activity has the highest "score," determined by the largest output of each activity's equation. These equations utilize two internal variables--`Global.stress` and `Global.energy`--to add a bit of preference to the choice.<a id="note-1">[<sup>1</sup>](#footnote-1) <a id="note-2">[<sup>2</sup>](#footnote-2) <a id="note-3">[<sup>3</sup>](#footnote-3)
 
 Moreover, these two internal variables also affect the smaller details of the cat's behavior:
 - Stress directly affects speed and inversely affects the likelihood of idling. It decreases over time and increases when the cat bumps into the screen edges and the user's mouse.
@@ -98,3 +84,22 @@ Key folders include the following:
 ## License
 EepyKitty is licensed under the MIT License--see the [LICENSE](https://github.com/Noga-Levy/EepyKitty/blob/master/LICENSE) file for details.
 Check [NOTICE.md](https://github.com/Noga-Levy/EepyKitty/blob/master/NOTICE.md) for third-party attribution.
+
+## Footnotes
+<a id="footnote-1">[<sup>1</sup>](#note-1)</a>Wandering equation:
+
+$$(w_{\text{energy}} \cdot \text{Global.energy}) - (w_{\text{stress}} \cdot \text{Global.stress}) = W_{\text{score}}$$
+
+$w_{\text{energy}}$ is the weight of the energy, and it's $0.5 \pm 0.2$. Likewise, $w_{\text{stress}}$ is the influence of the cat's stress, equating to $2 \pm 0.5$.
+
+<a id="footnote-2">[<sup>2</sup>](#note-2) Resting equation:
+
+$$(w_{\text{stress}} \cdot \text{Global.stress}) - (w_{\text{energy}} \cdot \text{Global.energy}) = R_{\text{score}}$$
+
+Here, $w_{\text{stress}}$ equals $3.125 \pm 0.375$ and $w_{\text{energy}}$ equals $0.55 \pm 0.15$.
+
+<a id="footnote-3">[<sup>3</sup>](#note-3) Eating equation:
+
+$$2 \cdot e^{^{\left(-\frac{(\text{Global.energy} - E_{\text{desired}})^2}{0.5} \right)}} = E_{\text{score}}$$
+
+In the equation above, $E_{\text{desired}}$ represents the energy state/value at which eating is most desirable, corresponding to $2.5 \pm 0.5$.
