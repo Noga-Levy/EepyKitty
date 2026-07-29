@@ -56,17 +56,24 @@ Additional scripts include the following:
 - `Global.gd` ~ A collection of global variables
 
 The cat can choose activities via these scripts. These activities are selected based on which activity has the highest "score," determined by the largest output of each activity's equation. These equations utilize two internal variables--`Global.stress` and `Global.energy`--to add a bit of preference to the choice.
-- Wandering equation:
 
-  $$(0.5 \cdot \text{Global.energy}) - (2 \cdot \text{Global.stress}) = W_{\text{score}}$$
+> Wandering equation:
+>
+> $$(w_{\text{energy}} \cdot \text{Global.energy}) - (w_{\text{stress}} \cdot \text{Global.stress}) = W_{\text{score}}$$
+> 
+> $w_{\text{energy}}$ is the weight of the energy, and it's $0.5 \pm 0.2$. Likewise, $w_{\text{stress}}$ is the influence of the cat's stress, equating to $2 \pm 0.5$.
 
-- Resting equation:
+> Resting equation:
+>
+> $$(w_{\text{stress}} \cdot \text{Global.stress}) - (0.5 \cdot \text{Global.energy}) = R_{\text{score}}$$
+> 
+> Here, $w_{\text{stress}}$ equals $3.125 \pm 0.375$ and $w_{\text{energy}}$ equals $0.55 \pm 0.15$.
 
-  $$(3 \cdot \text{Global.stress}) - (0.5 \cdot \text{Global.energy}) = R_{\text{score}}$$
-  
-- Eating equation:
-
-  $$2 \cdot e^{^{\left(-\frac{(\text{Global.energy} - 2.5)^2}{0.5} \right)}} = E_{\text{score}}$$
+>Eating equation:
+>
+>$$2 \cdot e^{^{\left(-\frac{(\text{Global.energy} - d_{\text{energy}})^2}{0.5} \right)}} = E_{\text{score}}$$
+>
+>In the equation above, $d_{\text{energy}}$ represents the most desirable energy value/state, which corresponds to $2.5 \pm 0.5$.
 
 Moreover, these two internal variables also affect the smaller details of the cat's behavior:
 - Stress directly affects speed and inversely affects the likelihood of idling. It decreases over time and increases when the cat bumps into the screen edges and the user's mouse.
