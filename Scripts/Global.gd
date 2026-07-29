@@ -1,5 +1,5 @@
 """
-Written in March to June of 2026 by Noga Levy.
+Written in March to July of 2026 by Noga Levy.
 
 Global.gd is a collection of all the global variables used throughout the program.
 """
@@ -55,3 +55,19 @@ var cat_window_id
 
 const EULERS_NUMBER = exp(1.0)  # We'll need Euler's number for a couple of our values; as it is not
 								# a built-in constant, we just calculate Euler's number 
+
+
+var personality_seed:  Dictionary = {  # window_movement.gd
+	"stress_incr" = randf_range(0.65, 1.15),
+	"mouse_spook_timeout" = randf_range(1, 5),
+	"desirable_comfort_decline" = randf_range(0.1, 0.3),
+	"comfort_decay" = randf_range(0.0005, 0.0015),
+	"speed_basis" = randf_range(0.3, 0.7),
+	# food_bowl.gd, comfort_map.gd, and cat_animation are not affected by peronality.
+	# Instead, the next script affected by personality is activities.gd.
+	"wander_stress_weight" = randf_range(1.5, 2.5),  # In particular, these 5 are for deciding which
+	"wander_energy_weight" = randf_range(0.3, 0.7),  # activity the cat should do next.
+	"rest_stress_weight" = randf_range(2.75, 3.5),
+	"rest_energy_weight" = randf_range(0.4, 0.7),
+	"most_desirable_energy" = randf_range(2, 3)
+}

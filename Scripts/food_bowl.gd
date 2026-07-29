@@ -1,7 +1,8 @@
 """
-Written in February to June of 2026 by Noga Levy.
+Written in February to July of 2026 by Noga Levy.
 
-WIP food bowl that will, eventually, be used as part of an action.
+Food bowl control, attached to food_bowl.tscn used within the program to satisfy the cat's hunger.
+It both sets up the food bowl window and tracks it's position throughout runtime.
 """
 
 extends Window

@@ -1,5 +1,5 @@
 """
-Written in March to June 2026 by Noga Levy.
+Written in March to July 2026 by Noga Levy.
 
 activities.gd is the collection of all actions the cat can take. By plugging one of the functions
 into the right area of process() in window_movement.gd, one gets the cat to perform the action.
@@ -11,7 +11,7 @@ var switch_action_cd = 10
 var switch_dir_cd = 3
 
 var max_comfort_value   # Highest value from the comfort map.
-var max_comfort_square  # Gris square of the highest value from the comfort map.
+var max_comfort_square  # Grid square of the highest value from the comfort map.
 var comfort_dlt = 0     # The change in comfort for each square at a particular time.
 
 # Directions for x and y.
@@ -64,23 +64,23 @@ func activity_decider():
 	
 	# Equations:
 	# Wandering score equation
-	const WANDER_STRESS_WEIGHT = 2
-	const WANDER_ENERGY_WEIGHT = 0.5
-	score["WANDER"] = ((WANDER_ENERGY_WEIGHT * Global.energy) -
-					   (WANDER_STRESS_WEIGHT * Global.stress))
+	var wander_stress_weight = Global.personality_seed["wander_stress_weight"]
+	var wander_energy_weight = Global.personality_seed["wander_energy_weight"]
+	score["WANDER"] = ((wander_energy_weight * Global.energy) -
+					   (wander_stress_weight * Global.stress))
 	
 	# Resting score equation
-	const REST_STRESS_WEIGHT = 3
-	const REST_ENERGY_WEIGHT = 0.5
-	score["REST"] = (REST_STRESS_WEIGHT * Global.stress) - (REST_ENERGY_WEIGHT * Global.energy)
+	var rest_stress_weight = Global.personality_seed["rest_stress_weight"]
+	var rest_energy_weight = Global.personality_seed["rest_energy_weight"]
+	score["REST"] = (rest_stress_weight * Global.stress) - (rest_energy_weight * Global.energy)
 	
 	# Eating score equation
-	const MOST_DESIRABLE_ENERGY = 2.5
+	var most_desirable_energy = Global.personality_seed["most_desirable_energy"]
 	const MAX_CURVE_HEIGHT = 2
 	const CURVE_DROPOFF = 0.5
 	# Gaussian function, creates a bell-curve
 	score["EAT"] = MAX_CURVE_HEIGHT * Global.EULERS_NUMBER ** (
-									-((Global.energy - MOST_DESIRABLE_ENERGY) ** 2)/CURVE_DROPOFF)
+									-((Global.energy - most_desirable_energy) ** 2)/CURVE_DROPOFF)
 	
 	var current_goal
 	current_goal = score.values().max()
