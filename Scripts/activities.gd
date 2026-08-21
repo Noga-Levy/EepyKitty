@@ -236,7 +236,7 @@ func EAT(delta):
 			Global.y = xy_dirs[1]
 			
 			Global.stress_decr = 0.001
-			Global.energy_dlt = -0.01
+			Global.energy_dlt = -0.001
 			
 			Global.action.emit(Global.speed, Global.x)
 	else:
